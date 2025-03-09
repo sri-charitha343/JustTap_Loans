@@ -33,8 +33,9 @@ import PanOpt from './app/Screens/RegistrationProcessScreens/DriverRegistration/
 import TakeSelfieDriver from './app/Screens/RegistrationProcessScreens/DriverRegistration/TakeSelfieDriver';
 import DriverProfilePicture from './app/Screens/RegistrationProcessScreens/DriverRegistration/DriverProfilePicture';
 import CompletedDriverProfile from './app/Screens/RegistrationProcessScreens/DriverRegistration/CompleteDriverProfile';
-import PersonalDetails from './app/Screens/AfterLoginScreens/PersonalDetails';
-import Security from './app/Screens/AfterLoginScreens/Security';
+import PersonalDetails from './app/Screens/AfterLoginScreens/ProfileScreens/PersonalDetails';
+import Security from './app/Screens/AfterLoginScreens/ProfileScreens/Security';
+import ProfilePage from './app/Screens/AfterLoginScreens/ProfileScreens/ProfilePage';
 
 const Stack = createNativeStackNavigator();
 
@@ -70,7 +71,10 @@ export default function App() {
           <Stack.Screen name="PanCardUploadFromFile" component={PanCardUploadFromFile} options={{ headerShown: false }} />
           <Stack.Screen name="Processing" component={Processing} options={{ headerShown: false }} />
           <Stack.Screen name="CompleteCustomerProfile" component={CompleteCustomerProfile} options={{ headerShown: false }} />
+
+
           <Stack.Screen name="MainTabs" component={TabNavigator} options={{ headerShown: false }} />
+          <Stack.Screen name="ProfilePage" component={ProfilePage} options={{ headerShown: false }} />
           <Stack.Screen name="PersonalDetails" component={PersonalDetails} options={{ headerShown: false }} />
           <Stack.Screen name="Security" component={Security} options={{ headerShown: false }} />
         </Stack.Navigator>

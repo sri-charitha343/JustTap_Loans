@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAadharData } from '../../store_management/actions/aadharActions';
-import { getPanData } from '../../store_management/actions/panActions';
+import { getAadharData } from '../../../store_management/actions/aadharActions';
+import { getPanData } from '../../../store_management/actions/panActions';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 

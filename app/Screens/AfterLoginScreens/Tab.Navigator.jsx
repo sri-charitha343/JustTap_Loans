@@ -1,7 +1,9 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "./tabs/HomePage";
-import ProfileScreen from "./tabs/ProfilePage";
+import ExploreScreen from "./tabs/ExploreScreen";
+import LoansPage from "./tabs/LoansPage";
+import ActivityPage from "./tabs/ActivityPage";
 import { StyleSheet } from "react-native";
 
 const Tab = createBottomTabNavigator();
@@ -13,28 +15,34 @@ export default function TabNavigator() {
         tabBarIcon: ({ color, size }) => {
           let iconName;
           if (route.name === "Home") {
-            iconName = "home";
-          } else if (route.name === "Profile") {
-            iconName = "person";
+            iconName = "home"; // Home icon
+          } else if (route.name === "Explore") {
+            iconName = "search"; // Search icon for Explore
+          } else if (route.name === "Loans") {
+            iconName = "create"; // File edit icon for Loans (create)
+          } else if (route.name === "Activity") {
+            iconName = "list"; // List icon for Activity
           }
-          return <Ionicons name={iconName} size={25} color={color}  />;
+          return <Ionicons name={iconName} size={25} color={color} />;
         },
-        tabBarActiveTintColor: "skyblue",  // Fixed color reference
-        tabBarInactiveTintColor: "white",
-        tabBarStyle: styles.tabBar,
+        tabBarActiveTintColor: "skyblue",  // Active tab color
+        tabBarInactiveTintColor: "white", // Inactive tab color
+        tabBarStyle: styles.tabBar,  // Custom styles for tab bar
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
-      <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }}/>
+      <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Explore" component={ExploreScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Loans" component={LoansPage} options={{ headerShown: false }} />
+      <Tab.Screen name="Activity" component={ActivityPage} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
 }
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: "#0F4A97",
-    height:60,
-    padding: 20,
-    marginBottom: 0.1
+    backgroundColor: "#0F4A97",  // Tab bar background color
+    height: 60,  // Tab bar height
+    padding: 20,  // Padding for the tab bar
+    marginBottom: 0.1,  // Bottom margin for tab bar
   },
 });
