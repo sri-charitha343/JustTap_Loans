@@ -11,4 +11,6 @@ const ActivityPage = () => {
 
 export default ActivityPage
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+   
+});

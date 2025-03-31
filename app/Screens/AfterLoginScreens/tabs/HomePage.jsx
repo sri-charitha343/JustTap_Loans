@@ -42,9 +42,20 @@ const HomePage = () => {
       {/* Conditional Content Rendering */}
       {userType === 'customer' ? (
         <DiffLoans /> // Content for Customer
+        
       ) : (
         <Text style={styles.text}>Welcome Driver</Text> // Content for Driver
       )}
+      <View style={styles.bottomcontainer}>
+        <View style={styles.inrow}>
+          <TouchableOpacity style={styles.overview} onPress={() => navigation.navigate('NextScreen')}>
+            <Text style={styles.overviewText}>Overview</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.overview}></TouchableOpacity>
+        </View>
+              <TouchableOpacity style={styles.friends} onPress={() => navigation.navigate('NextScreen')}>
+                <Text style={styles.friendsText}>Invite Friends get bonus</Text></TouchableOpacity>
+            </View>
     </ScrollView>
   );
 };
@@ -93,6 +104,38 @@ const styles = StyleSheet.create({
   },
   checkBalanceText: {
     color: '#fff',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  bottomcontainer: {
+    padding: 15,
+    borderRadius: 15,
+    height: 210,
+    backgroundColor: '#f0f8ff',    
+  },
+  friends: {
+    backgroundColor: '#cbe2f5',
+    paddingVertical: 20,
+    alignItems: 'center',
+  },
+  overview: {
+    backgroundColor: '#cbe2f5',
+    height: 100,
+    width: 140,
+    borderRadius:10,
+    padding:20,
+  },
+  inrow: {
+    flexDirection:'row',
+    justifyContent:'space-between',
+    paddingBottom: 10,
+  },
+  overviewText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    padding: 15,
+  },
+  friendsText: {
     fontSize: 14,
     fontWeight: 'bold',
   },

@@ -2,12 +2,12 @@ import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-na
 import React, { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
-
-const DiffLoans = ({ navigation }) => {
+import { useNavigation } from '@react-navigation/native';
+const DiffLoans = () => {
   const [selectedLoan, setSelectedLoan] = useState(null);
   const userData = useSelector(state => state.userData);
   const displayName = userData ? userData.name : 'User';
-
+  const navigation = useNavigation();
   const loanOptions = [
     { id: 1, name: 'Personal Loan', description: 'Higher credit limit', price: '₹5,000 - ₹50,000', icon: 'person-outline', color: '#fca5a5' },
     { id: 2, name: 'Easy Loan', description: 'Instant Transfer', price: '₹500 - ₹5,000', icon: 'flash-outline', color: '#fcd34d' },
@@ -28,8 +28,8 @@ const DiffLoans = ({ navigation }) => {
             <TouchableOpacity
               key={loan.id}
               style={[styles.loanBox, { backgroundColor: isSelected ? loan.color : '#fff' }]}
-              onPress={() => setSelectedLoan(loan.id)}
-            >
+              onPress={() => setSelectedLoan(loan.id)}>
+                
               <Ionicons 
                 name={loan.icon} 
                 size={30} 
@@ -49,11 +49,11 @@ const DiffLoans = ({ navigation }) => {
       {/* Show Next Button Only When a Loan is Selected */}
       {selectedLoan && (
         <View>
-        <TouchableOpacity style={styles.nextButton} onPress={() => navigation.navigate('NextScreen')}>
+        <TouchableOpacity style={styles.nextButton} onPress={() => navigation.navigate('PersonalLoan')}>
           <Text style={styles.nextButtonText}>Next</Text>
         </TouchableOpacity>
         </View>
-      )}
+      )}   
     </SafeAreaView>
   );
 };

@@ -24,7 +24,7 @@ const WelcomeScreen = ({ navigation }) => {
           <Text style={styles.justTapText}>JUST TAP!</Text> Loans
         </Text>
       </View>
-
+      
       <View style={styles.bottomContainer}>
         <Text style={styles.memberText}>
           <Text style={{ fontSize: 19, fontFamily: 'SofadiOne' }}>JUST TAP!</Text>

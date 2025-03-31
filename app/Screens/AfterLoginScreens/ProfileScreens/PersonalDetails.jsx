@@ -97,7 +97,7 @@ const PersonalDetails = () => {
             )}
             <View style={styles.bottom}></View>
         </ScrollView>
-    );
+     );
 };
 
 const styles = StyleSheet.create({
