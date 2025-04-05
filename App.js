@@ -36,7 +36,11 @@ import CompletedDriverProfile from './app/Screens/RegistrationProcessScreens/Dri
 import PersonalDetails from './app/Screens/AfterLoginScreens/ProfileScreens/PersonalDetails';
 import Security from './app/Screens/AfterLoginScreens/ProfileScreens/Security';
 import ProfilePage from './app/Screens/AfterLoginScreens/ProfileScreens/ProfilePage';
-import PersonalLoan from './app/Screens/Customer/PersonalLoan';
+import OverView from './app/Screens/AfterLoginScreens/HomePageScreens/OverView';
+import Cards from './app/Screens/AfterLoginScreens/HomePageScreens/Cards';
+import InviteFriends from './app/Screens/AfterLoginScreens/HomePageScreens/InviteFriends';
+import HelpPage from './app/Screens/AfterLoginScreens/HomePageScreens/HelpPage';
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -74,10 +78,16 @@ export default function App() {
 
 
           <Stack.Screen name="MainTabs" component={TabNavigator} options={{ headerShown: false }} />
+          
+          <Stack.Screen name="OverView" component={OverView} options={{ headerShown: false }} />
+          <Stack.Screen name="Cards" component={Cards} options={{ headerShown: false }} />
+          <Stack.Screen name="InviteFriends" component={InviteFriends}  />
+          <Stack.Screen name="HelpPage" component={HelpPage} options={{ headerShown: false }}  />
+
+
           <Stack.Screen name="ProfilePage" component={ProfilePage} options={{ headerShown: false }} />
           <Stack.Screen name="PersonalDetails" component={PersonalDetails} options={{ headerShown: false }} />
           <Stack.Screen name="Security" component={Security} options={{ headerShown: false }} />
-          <Stack.Screen name="PersonalLoan" component={PersonalLoan} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

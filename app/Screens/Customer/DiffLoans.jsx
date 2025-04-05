@@ -13,6 +13,9 @@ const DiffLoans = () => {
     { id: 2, name: 'Easy Loan', description: 'Instant Transfer', price: '₹500 - ₹5,000', icon: 'flash-outline', color: '#fcd34d' },
     { id: 3, name: 'Business Loan', description: 'For business owners', price: '₹10,000 - ₹100,000', icon: 'briefcase-outline', color: '#6ee7b7' }
   ];
+  const resetSelection = () => {
+    setSelectedLoan(null);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -48,11 +51,22 @@ const DiffLoans = () => {
 
       {/* Show Next Button Only When a Loan is Selected */}
       {selectedLoan && (
-        <View>
-        <TouchableOpacity style={styles.nextButton} onPress={() => navigation.navigate('PersonalLoan')}>
+        <View style={{flexDirection:'row' , width:'100%',justifyContent:'space-around',paddingHorzontal: 10}}>
+        <TouchableOpacity
+        style={[styles.nextButton, !selectedLoan && styles.disabledButton]}
+        onPress={() => selectedLoan && navigation.navigate('Loans', { loanType: selectedLoan })}
+        disabled={!selectedLoan}
+      >
           <Text style={styles.nextButtonText}>Next</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+            style={styles.nextButton}
+            onPress={resetSelection}
+          >
+            <Text style={styles.nextButtonText}>Reset</Text>
+          </TouchableOpacity>
         </View>
+        
       )}   
     </SafeAreaView>
   );
@@ -133,7 +147,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     alignItems: 'center',
-    width: '50%',
+    width: '40%',
   },
   nextButtonText: {
     color: 'white',

@@ -17,7 +17,7 @@ const EnterMobileNumber = () => {
     }
     
     try {
-      const response = await fetch(`http://192.168.1.25:3002/api/loan/details/${mobileNumber}`);
+      const response = await fetch(`http://192.168.29.232:3002/api/loan/details/${mobileNumber}`);
       const data = await response.json();
       
       console.log('API Response Data:', data); // Log the response data

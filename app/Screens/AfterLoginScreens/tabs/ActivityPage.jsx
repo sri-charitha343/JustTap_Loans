@@ -1,11 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
 const ActivityPage = () => {
   return (
-    <View>
-      <Text>ActivityPage</Text>
-    </View>
+    <SafeAreaView style={styles.Container}>
+      
+
+    </SafeAreaView>
   )
 }
 

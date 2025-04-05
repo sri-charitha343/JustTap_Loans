@@ -17,7 +17,7 @@ const EnterDriverId = () => {
     }
 
     try {
-      const response = await axios.get(`http://192.168.29.13:5000/api/loan/checkCaptainId/${driverId}`);
+      const response = await axios.get(`http://192.168.29.232:3002/api/loan/checkCaptainId/${driverId}`);
       console.log("Response from API:", response.data);
       console.log("Driver Details:", response.data); // Log entire response for debugging
 
