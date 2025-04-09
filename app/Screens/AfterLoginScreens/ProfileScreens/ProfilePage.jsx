@@ -2,13 +2,14 @@ import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react
 import React from 'react';
 import { FontAwesome, Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { setDrivers, setCustomers, setUserData } from '../../../store_management/actions/actions';
 
 const ProfilePage = () => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
   const userData = useSelector((state) => state.userData);
+  const userType = useSelector((state) => state.userData.userType)
+  console.log('userType:',userType)
 
   const profileImage = useSelector((state) => state.profileImage);
   const menuItems = [

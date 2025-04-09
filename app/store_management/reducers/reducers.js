@@ -14,19 +14,17 @@ const SET_AADHAR_VERIFIED = "SET_AADHAR_VERIFIED";
 const SET_PAN_VERIFIED = "SET_PAN_VERIFIED";  // Define the action type
 
 const initialState = {
-  user: {
-    userType: null, // Initialize userType
-  },
-
   profileImage: null,
   aadharFrontImage: null, // New state for front Aadhar image
   aadharBackImage: null,  // New state for back Aadhar image
   panFrontImage: null,    // New state for front Pan image
-  panBackImage: null,     // New state for back Pan image
+  panBackImage: null,  
+    
   drivers: {
     existsInBoth: false,
     data: null,
   },
+  
   customers: {
     existsInBoth: false,
     data: null,
@@ -95,15 +93,15 @@ const rootReducer = (state = initialState, action) => {
       };
 
     case SET_DRIVERS:
-      console.log("Setting driver details in reducer:", action.payload); // Log for debugging
+      console.log("Setting driver details in reducer:", action.payload);
+      const { existsInBoth, ...driverData } = action.payload;
       return {
         ...state,
         drivers: {
           existsInBoth: action.payload.existsInBoth,
           data: action.payload,
-        },
-      };
-
+          },
+        };
     case SET_CUSTOMERS:
       return {
         ...state,

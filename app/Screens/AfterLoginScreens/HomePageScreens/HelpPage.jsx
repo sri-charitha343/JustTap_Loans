@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Alert } from 'react-native';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 const HelpPage = () => {
@@ -16,40 +17,44 @@ const HelpPage = () => {
     });
   };
 
-  const faqs = [
-    {
-      question: 'How can I reset my password?',
-      answer: 'Go to Profile > Settings > Change Password.',
-    },
-    {
-      question: 'How do I check my account balance?',
-      answer: 'Use the "Check Balance" button on the homepage.',
-    },
-    {
-      question: 'How do I add a new bank account?',
-      answer: 'Click on "Check Balance" and then tap "+ Add Bank Details".',
-    },
-    {
-      question: 'How can I contact support?',
-      answer: 'You can email us or call us using the buttons below.',
-    },
-  ];
-
+ 
   return (
     <ScrollView style={styles.container}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Ionicons name="arrow-back" size={24} color="white" />
+        <Ionicons name="arrow-back" size={24} color="#0F4A97" />
       </TouchableOpacity>
 
       <Text style={styles.title}>Help & Support</Text>
 
-      <Text style={styles.sectionTitle}>Frequently Asked Questions</Text>
-      {faqs.map((faq, index) => (
-        <View key={index} style={styles.faqCard}>
-          <Text style={styles.question}>Q: {faq.question}</Text>
-          <Text style={styles.answer}>A: {faq.answer}</Text>
-        </View>
-      ))}
+      <View style={styles.iconRow}>
+        <MaterialIcons name="pause-circle" size={20} color="#0F4A97" />
+        <Text style={styles.subHeading}>Borrow on Hold</Text>
+      </View>
+
+      <View style={styles.iconRow}>
+        <MaterialIcons name="account-balance-wallet" size={20} color="#0F4A97" />
+        <Text style={styles.subHeading}>Savings Account and Deposits</Text>
+      </View>
+
+      <View style={styles.iconRow}>
+        <MaterialIcons name="touch-app" size={20} color="#0F4A97" />
+        <Text style={styles.subHeading}>Just Tap! Loans</Text>
+      </View>
+
+      <View style={styles.iconRow}>
+        <MaterialIcons name="qr-code-scanner" size={20} color="#0F4A97" />
+        <Text style={styles.subHeading}>UPI</Text>
+      </View>
+
+      <View style={styles.iconRow}>
+        <MaterialIcons name="info" size={20} color="#0F4A97" />
+        <Text style={styles.subHeading}>General</Text>
+      </View>
+
+      <View style={styles.iconRow}>
+        <MaterialIcons name="report" size={20} color="#0F4A97" />
+        <Text style={styles.subHeading}>Fraud</Text>
+      </View>
 
       <Text style={styles.sectionTitle}>Need more help?</Text>
 
@@ -73,16 +78,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     padding: 20,
+    marginTop: 30,
   },
   backButton: {
-    position: 'absolute',
-    backgroundColor:'#0f4a97',
-    padding:10,
-    marginTop:15,
-    borderRadius:10
+    marginBottom: 10,
   },
   title: {
-    marginTop: '30%',
     fontSize: 24,
     fontWeight: 'bold',
     color: '#0F4A97',
@@ -93,6 +94,17 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginVertical: 10,
     color: '#333',
+  },
+  iconRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 8,
+  },
+  subHeading: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#0F4A97',
+    marginLeft: 10,
   },
   faqCard: {
     backgroundColor: '#f2f6ff',

@@ -113,7 +113,7 @@ const OverView = () => {
                 />
                 
             </View>
-            <TouchableOpacity style={styles.showMoreButton}>
+            <TouchableOpacity style={styles.showMoreButton} onPress={() => navigation.navigate('AllTransactions')}>
                 <Text style={styles.showMoreButtonText}>Show More</Text>
             </TouchableOpacity>
             

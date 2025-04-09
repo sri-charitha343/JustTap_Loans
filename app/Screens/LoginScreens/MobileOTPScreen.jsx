@@ -10,8 +10,7 @@ const MobileOTPScreen = () => {
   const [otp, setOtp] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   
-  // Access mobileNumber and userType from the Redux store
-  const mobileNumber = useSelector((state) => state.userData.mobileNumber);
+
   const userType = useSelector((state) => state.userData.userType);
 
   const handleSubmit = async () => {

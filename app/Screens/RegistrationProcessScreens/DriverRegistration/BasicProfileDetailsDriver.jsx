@@ -1,25 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
-  Image,} from "react-native";
+  Image,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { FontAwesome } from "@expo/vector-icons";
+import { setDrivers } from "../../../store_management/actions/actions";
 
 const BasicProfileDetailsDriver = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const [aadharVerified, setAadharVerified] = useState(false);
   const [panVerified, setPanVerified] = useState(false);
-
-  // Get driver details from Redux store
-  const driverDetails = useSelector(state => state.drivers.data) || {};
-  console.log("Driver Details :", driverDetails);
- 
- 
+  
+  const driverDetails = useSelector((state) => state.drivers.data);
+  console.log("Driver Details:", driverDetails);
 
   const verifyAadhar = () => {
     navigation.navigate("AadharOpt");
@@ -31,16 +30,14 @@ const BasicProfileDetailsDriver = () => {
     setPanVerified(true);
   };
 
-  const isNextDisabled = !(aadharVerified && panVerified);
-  const verifyButtonStyle = (verified) =>
-    verified ? styles.verifiedButton : styles.verifyButton;
-
   const handleNext = () => {
     setLoading(true);
     setTimeout(() => {
       navigation.navigate("DriverLoan");
     }, 2000);
   };
+
+  const isNextDisabled = !(aadharVerified && panVerified);
 
   return (
     <View style={styles.container}>
@@ -53,7 +50,7 @@ const BasicProfileDetailsDriver = () => {
       ) : (
         <>
           <View style={styles.imagePlaceholder}>
-            {driverDetails.profilePicture ? (
+            {driverDetails?.profilePicture?.path ? (
               <Image
                 source={{ uri: driverDetails.profilePicture.path }}
                 style={{ width: 120, height: 120, borderRadius: 60 }}
@@ -63,7 +60,6 @@ const BasicProfileDetailsDriver = () => {
             )}
           </View>
 
-
           <View style={styles.ratingContainer}>
             <Text style={styles.ratingText}>0.0/5</Text>
             {[...Array(5)].map((_, index) => (
@@ -72,35 +68,20 @@ const BasicProfileDetailsDriver = () => {
           </View>
 
           <View style={styles.detailsContainer}>
-            <Text style={styles.detail}>
-              Name: {driverDetails.name || "Not Provided"}
-            </Text>
-            <Text style={styles.detail}>
-              DOB: {driverDetails.dob || "Not Provided"}
-            </Text>
-            <Text style={styles.detail}>
-              Gender: {driverDetails.gender || "Not Provided"}
-            </Text>
-            <Text style={styles.detail}>
-              Mobile: {driverDetails.mobileNumber || "Not Provided"}
-            </Text>
-            <Text style={styles.detail}>
-              Email: {driverDetails.email || "Not Provided"}
-            </Text>
-            <Text style={styles.detail}>
-              No. of Rides Completed: {driverDetails.ridesCompleted || "Not Provided"}
-            </Text>
-            <Text style={styles.detail}>
-              Vehicle Type: {driverDetails.vehicleType|| "Not Provided"}
-            </Text>
-
+            <Text style={styles.detail}>Name: {driverDetails?.name ?? "Not Provided"}</Text>
+            <Text style={styles.detail}>DOB: {driverDetails?.dob ?? "Not Provided"}</Text>
+            <Text style={styles.detail}>Gender: {driverDetails?.gender ?? "Not Provided"}</Text>
+            <Text style={styles.detail}>Mobile: {driverDetails?.mobileNumber ?? "Not Provided"}</Text>
+            <Text style={styles.detail}>Email: {driverDetails?.email ?? "Not Provided"}</Text>
+            <Text style={styles.detail}>No. of Rides Completed: {driverDetails?.ridesCompleted ?? "Not Provided"}</Text>
+            <Text style={styles.detail}>Vehicle Type: {driverDetails?.vehicleType ?? "Not Provided"}</Text>
 
             <View style={styles.verifyRow}>
               <Text style={styles.detail}>
-                Aadhar No: {driverDetails.aadhar?.number || "Not Provided"}
+                Aadhar No: {driverDetails?.aadhar?.number ?? "Not Provided"}
               </Text>
               <TouchableOpacity
-                style={verifyButtonStyle(aadharVerified)}
+                style={aadharVerified ? styles.verifiedButton : styles.verifyButton}
                 onPress={verifyAadhar}
                 disabled={aadharVerified}
               >
@@ -112,10 +93,10 @@ const BasicProfileDetailsDriver = () => {
 
             <View style={styles.verifyRow}>
               <Text style={styles.detail}>
-                PAN No: {driverDetails.pancard?.number || "Not Provided"}
+                PAN No: {driverDetails?.pancard?.number ?? "Not Provided"}
               </Text>
               <TouchableOpacity
-                style={verifyButtonStyle(panVerified)}
+                style={panVerified ? styles.verifiedButton : styles.verifyButton}
                 onPress={verifyPan}
                 disabled={panVerified}
               >
@@ -196,6 +177,9 @@ const styles = StyleSheet.create({
   },
   verifiedButton: {
     backgroundColor: "palegreen",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
   },
   verifyText: {
     color: "#0F4A97",

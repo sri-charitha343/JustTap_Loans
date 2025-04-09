@@ -13,7 +13,7 @@ const ExploreScreen = ({navigation}) => {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
       >
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity style={styles.card} onPress ={() => navigation.navigate('AllTransactions')}>
           <LinearGradient colors={['#6EE7B7', '#3B82F6']} style={styles.gradient}>
             <FontAwesome5 name="money-bill-wave" size={50} color="#fff" />
             <Text style={styles.cardTitle}>{currentMonth} Spendings</Text>

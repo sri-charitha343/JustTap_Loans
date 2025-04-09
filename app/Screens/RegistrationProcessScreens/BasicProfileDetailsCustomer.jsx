@@ -36,7 +36,7 @@ const BasicProfileDetailsCustomer = () => {
         <Text style={styles.detailText}>Email: {customerDetails.email}</Text>
         <Text style={styles.detailText}>Mobile: {customerDetails.phoneNumber}</Text>
         <Text style={styles.detailText}>Gender: {customerDetails.gender}</Text>
-        <Text style={styles.detailText}>DOB: {customerDetails.dob}</Text>
+        <Text style={styles.detailText}>DOB: {customerDetails.dateOfBirth}</Text>
       </View>
 
       {/* Document Boxes */}

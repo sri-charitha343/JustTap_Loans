@@ -40,6 +40,7 @@ import OverView from './app/Screens/AfterLoginScreens/HomePageScreens/OverView';
 import Cards from './app/Screens/AfterLoginScreens/HomePageScreens/Cards';
 import InviteFriends from './app/Screens/AfterLoginScreens/HomePageScreens/InviteFriends';
 import HelpPage from './app/Screens/AfterLoginScreens/HomePageScreens/HelpPage';
+import AllTransactions from './app/Screens/AfterLoginScreens/HomePageScreens/OverViewPages/AllTransactions';
 
 const Stack = createNativeStackNavigator();
 
@@ -80,6 +81,7 @@ export default function App() {
           <Stack.Screen name="MainTabs" component={TabNavigator} options={{ headerShown: false }} />
           
           <Stack.Screen name="OverView" component={OverView} options={{ headerShown: false }} />
+          <Stack.Screen name="AllTransactions" component={AllTransactions}  />
           <Stack.Screen name="Cards" component={Cards} options={{ headerShown: false }} />
           <Stack.Screen name="InviteFriends" component={InviteFriends}  />
           <Stack.Screen name="HelpPage" component={HelpPage} options={{ headerShown: false }}  />

@@ -27,7 +27,7 @@ const CompleteCustomerProfile = () => {
   const handleNext = () => {
     const userData = {
       name: customerDetails.name,
-      dob: customerDetails.dob,
+      dob: customerDetails.dateOfBirth,
       gender: customerDetails.gender,
       mobileNumber: customerDetails.phoneNumber,
       email: customerDetails.email,

@@ -19,9 +19,10 @@ const SplashScreen = () => {
   const apOpacity = useRef(new Animated.Value(0)).current;
   const exclamationOpacity = useRef(new Animated.Value(0)).current;
   const tTextWhiteOpacity = useRef(new Animated.Value(1)).current;
-  const loansOpacity = useRef(new Animated.Value(0)).current; 
+  const loansOpacity = useRef(new Animated.Value(0)).current;
 
   const [colorsChanged, setColorsChanged] = useState(false);
+  const [showOnlyLoans, setShowOnlyLoans] = useState(false);
 
   useEffect(() => {
     if (fontsLoaded) {
@@ -65,7 +66,7 @@ const SplashScreen = () => {
               easing: Easing.ease,
               useNativeDriver: true,
             }),
-            Animated.timing(exclamationOpacity, {  
+            Animated.timing(exclamationOpacity, {
               toValue: 1,
               duration: 800,
               easing: Easing.ease,
@@ -79,6 +80,7 @@ const SplashScreen = () => {
               useNativeDriver: false,
             }).start(() => {
               setColorsChanged(true);
+              setShowOnlyLoans(true); // ✅ Hides other text
 
               Animated.parallel([
                 Animated.timing(ustOpacity, {
@@ -120,7 +122,6 @@ const SplashScreen = () => {
                     useNativeDriver: true,
                   }),
                 ]).start(() => {
-                
                   Animated.timing(loansOpacity, {
                     toValue: 1,
                     duration: 800,
@@ -154,31 +155,29 @@ const SplashScreen = () => {
 
   return (
     <Animated.View style={[styles.container, { backgroundColor: interpolatedBgColor }]}>
-      <View style={styles.logo}>
-        <Animated.Text style={[styles.jText, { transform: [{ translateX: jPosition }], color: textColor }]}>
-          J
-        </Animated.Text>
-        <Animated.Text style={[styles.smallText, styles.ustBesideJ, { opacity: ustOpacity, color: textColor }]}>
-          ust
-        </Animated.Text>
+      {!showOnlyLoans && (
+        <View style={styles.logo}>
+          <Animated.Text style={[styles.jText, { transform: [{ translateX: jPosition }], color: textColor }]}>
+            J
+          </Animated.Text>
+          <Animated.Text style={[styles.smallText, styles.ustBesideJ, { opacity: ustOpacity, color: textColor }]}>
+            ust
+          </Animated.Text>
+          <Animated.Text style={[styles.tTextWhite, { opacity: tTextWhiteOpacity, color: tWhiteColor }]}>
+            t
+          </Animated.Text>
+          <Animated.Text style={[styles.tTextBlue, { transform: [{ translateX: tPosition }], color: textColor }]}>
+            t
+          </Animated.Text>
+          <Animated.Text style={[styles.smallText, styles.apBesideT, { opacity: apOpacity, color: textColor }]}>
+            ap
+          </Animated.Text>
+          <Animated.Text style={[styles.exclamation, { opacity: exclamationOpacity, color: textColor }]}>
+            !
+          </Animated.Text>
+        </View>
+      )}
 
-        <Animated.Text style={[styles.tTextWhite, { opacity: tTextWhiteOpacity, color: tWhiteColor }]}>
-          t
-        </Animated.Text>
-
-        <Animated.Text style={[styles.tTextBlue, { transform: [{ translateX: tPosition }], color: textColor }]}>
-          t
-        </Animated.Text>
-        <Animated.Text style={[styles.smallText, styles.apBesideT, { opacity: apOpacity, color: textColor }]}>
-          ap
-        </Animated.Text>
-        
-        <Animated.Text style={[styles.exclamation, { opacity: exclamationOpacity, color: textColor }]}>
-          !
-        </Animated.Text>
-      </View>
-
-      
       <Animated.Text style={[styles.loansText, { opacity: loansOpacity }]}>
         Loans
       </Animated.Text>
@@ -238,7 +237,7 @@ const styles = StyleSheet.create({
     left: 245,
     top: 253.5,
   },
-  exclamation: { 
+  exclamation: {
     position: 'absolute',
     left: 335,
     top: 250,
@@ -248,12 +247,10 @@ const styles = StyleSheet.create({
   },
   loansText: {
     position: 'absolute',
-    top: 430,  
-    left: 110, 
-    fontSize: 50,
+    marginTop: '50%',
+    fontSize: 70,
     fontFamily: 'Konkhmer Sleokchher',
     fontWeight: '400',
-    color: '#FFF', 
+    color: '#FFF',
   },
 });
-
