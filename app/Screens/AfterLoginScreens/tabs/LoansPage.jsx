@@ -6,7 +6,8 @@ import { useRoute } from '@react-navigation/native';
 
 const LoansPage = () => {
   const route = useRoute();
-  const { loanType } = route.params || {};
+const loanType = route.params?.loanType ?? 0;
+
 
   const [loanAmount, setLoanAmount] = useState(5000);
   const [loanTerm, setLoanTerm] = useState(5);
@@ -83,7 +84,7 @@ const LoansPage = () => {
           <Text style={styles.infoText}>{formattedDate}</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} >
         <Text style={styles.buttonText}>Get Money</Text>
       </TouchableOpacity>
     </SafeAreaView>

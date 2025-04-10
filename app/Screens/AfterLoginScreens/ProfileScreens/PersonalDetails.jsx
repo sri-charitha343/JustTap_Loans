@@ -7,11 +7,20 @@ import { useNavigation } from '@react-navigation/native';
 const PersonalDetails = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
-    
+
     const user = useSelector(state => state.userData);
-    console.log('user details:',user)
-    const userType = user?.userType;
-    console.log('user type:',userType)
+    console.log('user details:', user)
+     const userType = useSelector((state) => state.userType)
+      console.log('userType:',userType)
+      const getImageUrl = (filename) => `http://192.168.29.232:3002/uploads/${filename}`;
+
+    const aadharFrontImage = useSelector(state => state.aadharFrontImage);
+    console.log("Redux aadhar front:", useSelector(state => state.aadharFrontImage));
+
+    const aadharBackImage = useSelector(state => state.aadharBackImage);
+    const panFrontImage = useSelector(state => state.panFrontImage);
+    const panBackImage = useSelector(state => state.panBackImage);
+
     const [openDropdown, setOpenDropdown] = useState(null);
 
     const toggleDropdown = (dropdown) => {
@@ -50,12 +59,12 @@ const PersonalDetails = () => {
                         <View style={styles.documentContainer}>
                             <Text style={styles.label}>Aadhar Number: {user?.aadhar?.number || 'Not provided'}</Text>
                             {user?.aadhar?.frontImage?.path ? (
-                                <Image source={{ uri: user.aadhar.frontImage.path }} style={styles.image} />
+                                <Image source={{ uri: getImageUrl(user.aadhar.frontImage.filename) }} style={styles.image} />
                             ) : (
                                 <View style={styles.placeholder}><Text>No Front Image</Text></View>
                             )}
                             {user?.aadhar?.backImage?.path ? (
-                                <Image source={{ uri: user.aadhar.backImage.path }} style={styles.image} />
+                                <Image source={{ uri: getImageUrl(user.aadhar.backImage.filename) }} style={styles.image} />
                             ) : (
                                 <View style={styles.placeholder}><Text>No Back Image</Text></View>
                             )}
@@ -70,22 +79,17 @@ const PersonalDetails = () => {
                     {openDropdown === 'pan' && (
                         <View style={styles.documentContainer}>
                             <Text style={styles.label}>PAN Number: {user?.pancard?.number || 'Not provided'}</Text>
-                            {user?.pancard?.frontImage?.path ? (
-                                <Image source={{ uri: user.pancard.frontImage.path }} style={styles.image} />
+                            {user?.pancard?.image?.path ? (
+                                <Image source={{ uri: getImageUrl(user.pancard.image.filename)}} style={styles.image} />
                             ) : (
                                 <View style={styles.placeholder}><Text>No Front Image</Text></View>
-                            )}
-                            {user?.pancard?.backImage?.path ? (
-                                <Image source={{ uri: user.pancard.backImage.path }} style={styles.image} />
-                            ) : (
-                                <View style={styles.placeholder}><Text>No Back Image</Text></View>
                             )}
                         </View>
                     )}
                 </>
             ) : (
                 <>
-                   
+
                     <View style={styles.detailsContainer}>
                         <Text style={styles.label}>Name: {user?.name}</Text>
                         <Text style={styles.label}>Email: {user?.email}</Text>
@@ -102,14 +106,14 @@ const PersonalDetails = () => {
                     </TouchableOpacity>
                     {openDropdown === 'aadhar' && (
                         <View style={styles.documentContainer}>
-                            <Text style={styles.label}>Aadhar Number: {user?.aadhar?.number || 'Not provided'}</Text>
-                            {user?.aadhar?.frontImage?.path ? (
-                                <Image source={{ uri: user.aadhar.frontImage.path }} style={styles.image} />
+                            <Text style={styles.label}>Aadhar Number: {user?.aadhar || 'Not provided'}</Text>
+                            {aadharFrontImage ? (
+                                <Image source={{ uri: aadharFrontImage }} style={styles.image} />
                             ) : (
                                 <View style={styles.placeholder}><Text>No Front Image</Text></View>
                             )}
-                            {user?.aadhar?.backImage?.path ? (
-                                <Image source={{ uri: user.aadhar.backImage.path }} style={styles.image} />
+                            {aadharBackImage ? (
+                                <Image source={{ uri: aadharBackImage }} style={styles.image} />
                             ) : (
                                 <View style={styles.placeholder}><Text>No Back Image</Text></View>
                             )}
@@ -123,17 +127,13 @@ const PersonalDetails = () => {
                     </TouchableOpacity>
                     {openDropdown === 'pan' && (
                         <View style={styles.documentContainer}>
-                            <Text style={styles.label}>PAN Number: {user?.pancard?.number || 'Not provided'}</Text>
-                            {user?.pancard?.frontImage?.path ? (
-                                <Image source={{ uri: user.pancard.frontImage.path }} style={styles.image} />
+                            <Text style={styles.label}>PAN Number: {user?.pancard || 'Not provided'}</Text>
+                            {panFrontImage ? (
+                                <Image source={{ uri: panFrontImage }} style={styles.image} />
                             ) : (
                                 <View style={styles.placeholder}><Text>No Front Image</Text></View>
                             )}
-                            {user?.pancard?.backImage?.path ? (
-                                <Image source={{ uri: user.pancard.backImage.path }} style={styles.image} />
-                            ) : (
-                                <View style={styles.placeholder}><Text>No Back Image</Text></View>
-                            )}
+                           
                         </View>
                     )}
                 </>

@@ -6,15 +6,16 @@ import { useSelector } from 'react-redux';
 import DiffLoans from '../../Customer/DiffLoans';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
-import CheckBalanceModal from '../../../../components/CheckBalance'; 
+ 
 
 
 const HomePage = () => {
-  const [userType, setUserType] = useState('customer');
-  const [modalVisible, setModalVisible] = useState(false); 
+
+ 
   const profileImage = useSelector(state => state.profileImage);
   const navigation = useNavigation();
-
+   const userType = useSelector((state) => state.userType);
+   console.log("user type:",userType);
   // Navigate to the profile page
   const handleProfilePress = () => {
     navigation.navigate('ProfilePage');
@@ -34,24 +35,24 @@ const HomePage = () => {
         </TouchableOpacity>
 
         <TouchableOpacity onPress={()  => navigation.navigate('HelpPage')}>
-          <MaterialIcons name="support-agent" size={45} color="#0F4A97" left={-50} />
+          <MaterialIcons name="support-agent" size={45} color="#0F4A97" right={0} />
         </TouchableOpacity>
 
-        <View style={styles.checkBalanceBox}>
-  <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.checkBalanceText}>
-    <Text style={styles.checkBalanceText}>Check Balance</Text>
-  </TouchableOpacity>
-
-  <CheckBalanceModal visible={modalVisible} onClose={() => setModalVisible(false)} />
-</View>
       </View>
 
 
       {userType === 'customer' ? (
         <View>
           <DiffLoans />
+          </View>
+      ) : (
 
-          <View style={styles.bottomcontainer}>
+        <View style={styles.driverContent}>
+          <Text style={styles.text}>Welcome, Driver</Text>
+          
+        </View>
+      )}
+       <View style={styles.bottomcontainer}>
             <View style={styles.inrow}>
               <View styles={{
                 alignItems: 'center',
@@ -88,14 +89,7 @@ const HomePage = () => {
               <Text style={styles.friendsText}>Invite Friends get bonus</Text>
             </TouchableOpacity>
           </View>
-        </View>
-      ) : (
-
-        <View style={styles.driverContent}>
-          <Text style={styles.text}>Welcome, Driver</Text>
-          
-        </View>
-      )}
+        
     </ScrollView>
   );
 };
@@ -139,18 +133,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     borderColor: '#0F4A97',
     borderWidth: 3,
-  },
-  checkBalanceBox: {
-    backgroundColor: '#0F4A97',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  checkBalanceText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: 'bold',
   },
   bottomcontainer: {
     padding: 15,

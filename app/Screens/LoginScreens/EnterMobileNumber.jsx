@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { setDrivers, setCustomers, setUserData } from '../../store_management/actions/actions';
+import { setDrivers, setCustomers, setUserData, setUserType } from '../../store_management/actions/actions';
 import { useNavigation } from '@react-navigation/native';
 
 const EnterMobileNumber = () => {
@@ -43,17 +43,20 @@ const EnterMobileNumber = () => {
         }
 
 
-      dispatch(setUserData({ mobileNumber, userType: 'both' })); // Update user data in store
+      dispatch(setUserType('both'));
+      dispatch(setUserData({ mobileNumber }));
       navigation.navigate('MobileOTPScreen');
 
       } else if (data.userDetails) {
         dispatch(setCustomers(data.userDetails)); // This remains unchanged
 
-      dispatch(setUserData({ mobileNumber, userType: 'customer' })); // Update user data in store
+      dispatch(setUserType('customer'));
+      dispatch(setUserData({ mobileNumber }));
       navigation.navigate('MobileOTPScreen');
 
       } else if (data.captainDetails) {
-        dispatch(setUserData({ mobileNumber, userType: 'driver' })); // This remains unchanged
+        dispatch(setUserType('driver'));
+        dispatch(setUserData({ mobileNumber }));
 
       navigation.navigate('MobileOTPScreen');
 

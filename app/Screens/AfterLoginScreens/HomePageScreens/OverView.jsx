@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
+import CheckBalanceModal from '../../../../components/CheckBalance'
+
 
 const OverView = () => {
     const navigation = useNavigation();
     const [selected, setSelected] = useState('All');
+    const [modalVisible, setModalVisible] = useState(false); 
 
     const mockTransactions = [
         { id: '1', date: '2025-03-01', amount: '₹5000', status: 'Paid' },
@@ -27,6 +30,14 @@ const OverView = () => {
         (a, b) => new Date(b.date) - new Date(a.date)
     );
 
+    const calculateDaysLeft = (dueDate) => {
+        const today = new Date();
+        const due = new Date(dueDate);
+        const diffTime = due - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays >= 0 ? diffDays : 0;
+    };
+
     const renderTransaction = ({ item }) => (
         <View style={styles.transactionItem}>
             <View style={styles.transactionLeft}>
@@ -46,9 +57,18 @@ const OverView = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-                <Icon name="arrow-back" size={28} color="white" />
-            </TouchableOpacity>
+            {/* Top Bar with Back and Check Balance */}
+            <View style={styles.topBar}>
+                <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+                    <Icon name="arrow-back" size={28} color="white" />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.checkBalanceBox}>
+                    <Text style={styles.checkBalanceText}>Check Balance</Text>
+                </TouchableOpacity>
+            </View>
+
+            <CheckBalanceModal visible={modalVisible} onClose={() => setModalVisible(false)} />
 
             <View style={styles.MainContainer}>
                 <View style={styles.Header}>
@@ -92,10 +112,14 @@ const OverView = () => {
                     </TouchableOpacity>
                 </View>
 
-                <View style={styles.Content}>
-                    <Text style={styles.ContentText}>Sanctioned Amount: ₹0</Text>
-                    <Text style={styles.ContentText}>Total Amount Paid: ₹0</Text>
-                    <Text style={styles.ContentText}>Interest Paid: 0%</Text>
+                {/* Loan Repayment Box */}
+                <View style={styles.loanBox}>
+                    <View>
+                        <Text style={styles.loanTitle}>Loan Repayment</Text>
+                        <Text style={styles.loanDetail}>Amount: ₹10,000</Text>
+                        <Text style={styles.loanDetail}>Due Date: 2025-04-20</Text>
+                    </View>
+                    <Text style={styles.daysLeft}>{calculateDaysLeft('2025-04-20')} Days Left</Text>
                 </View>
 
                 <View style={styles.balanceContainer}>
@@ -111,12 +135,11 @@ const OverView = () => {
                     renderItem={renderTransaction}
                     contentContainerStyle={{ paddingBottom: 20 }}
                 />
-                
             </View>
+
             <TouchableOpacity style={styles.showMoreButton} onPress={() => navigation.navigate('AllTransactions')}>
                 <Text style={styles.showMoreButtonText}>Show More</Text>
             </TouchableOpacity>
-            
         </SafeAreaView>
     );
 };
@@ -132,17 +155,32 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         padding: 20,
     },
+    topBar: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
     backButton: {
-        position: 'absolute',
-        top: 10,
-        padding:5,
+        padding: 5,
         borderRadius: 10,
-        backgroundColor:'#0f4a97',
-        left: 20,
-        zIndex: 10
+        backgroundColor: '#0f4a97',
+    },
+    checkBalanceBox: {
+        backgroundColor: '#0F4A97',
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 12,
+        alignItems: 'center',
+    },
+    checkBalanceText: {
+        color: '#fff',
+        fontSize: 14,
+        fontWeight: 'bold',
     },
     MainContainer: {
-        marginTop: 35,
+        marginTop: 20,
         backgroundColor: '#f1f8ff',
         padding: 10,
         width: '100%',
@@ -159,18 +197,6 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: 'white',
         borderRadius: 10
-    },
-    Content: {
-        gap: 10,
-        width: '90%'
-    },
-    ContentText: {
-        padding: 10,
-        backgroundColor: '#0f4a97',
-        borderRadius: 10,
-        color: 'white',
-        fontSize: 20,
-        textAlign: 'center'
     },
     buttonContainer: {
         alignItems: 'center',
@@ -194,6 +220,30 @@ const styles = StyleSheet.create({
     },
     activeText: {
         color: '#0f4a97'
+    },
+    loanBox: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#0f4a97',
+        padding: 15,
+        borderRadius: 10,
+        width: '90%',
+    },
+    loanTitle: {
+        fontSize: 18,
+        color: 'white',
+        fontWeight: 'bold',
+        marginBottom: 5,
+    },
+    loanDetail: {
+        fontSize: 14,
+        color: 'white',
+    },
+    daysLeft: {
+        fontSize: 16,
+        color: 'white',
+        fontWeight: 'bold',
     },
     balanceContainer: {
         backgroundColor: 'white',
@@ -250,18 +300,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#333'
     },
-    showMoreButton:{
-        marginTop:20,
-        backgroundColor:'#0f4a97',
-        borderRadius:10,
-        padding:5,
+    showMoreButton: {
+        marginTop: 20,
+        backgroundColor: '#0f4a97',
+        borderRadius: 10,
+        padding: 5,
         width: '50%',
-        alignItems:'center'
-        
+        alignItems: 'center'
     },
-    showMoreButtonText:{
-        color:'#fff',
-        fontWeight:'bold',
-        padding:10
+    showMoreButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        padding: 10
     }
 });

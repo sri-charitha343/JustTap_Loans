@@ -1,5 +1,6 @@
 import {SET_DRIVERS,
   SET_CUSTOMERS,
+  SET_USER_TYPE,
   SET_USER_DATA,
   SET_AADHAR_NUMBER,
   STORE_PROFILE_IMAGE,
@@ -11,13 +12,13 @@ import {SET_DRIVERS,
 } from "../actions/actions";
 
 const SET_AADHAR_VERIFIED = "SET_AADHAR_VERIFIED";
-const SET_PAN_VERIFIED = "SET_PAN_VERIFIED";  // Define the action type
+const SET_PAN_VERIFIED = "SET_PAN_VERIFIED"; 
 
 const initialState = {
   profileImage: null,
-  aadharFrontImage: null, // New state for front Aadhar image
-  aadharBackImage: null,  // New state for back Aadhar image
-  panFrontImage: null,    // New state for front Pan image
+  aadharFrontImage: null, 
+  aadharBackImage: null, 
+  panFrontImage: null,   
   panBackImage: null,  
     
   drivers: {
@@ -33,7 +34,9 @@ const initialState = {
   aadharNumber: null,
   userData: null,
   aadharVerified: false,
-  panVerified: false, // Added missing initial state
+  panVerified: false,
+  
+  userType: null,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -43,6 +46,7 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         aadharVerified: action.payload, // Update verification status
       };
+
     case SET_PAN_VERIFIED: // Corrected to update panVerified
         return {
             ...state,
@@ -92,16 +96,19 @@ const rootReducer = (state = initialState, action) => {
         panNumber: action.payload,
       };
 
+      case SET_USER_TYPE:
+  return {
+    ...state,
+    userType: action.payload,
+  };
+
+
     case SET_DRIVERS:
       console.log("Setting driver details in reducer:", action.payload);
-      const { existsInBoth, ...driverData } = action.payload;
       return {
         ...state,
-        drivers: {
-          existsInBoth: action.payload.existsInBoth,
-          data: action.payload,
-          },
-        };
+        drivers: action.payload
+      };
     case SET_CUSTOMERS:
       return {
         ...state,

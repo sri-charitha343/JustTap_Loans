@@ -3,15 +3,13 @@ import React from 'react';
 import { FontAwesome, Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { setDrivers, setCustomers, setUserData } from '../../../store_management/actions/actions';
 
 const ProfilePage = () => {
   const navigation = useNavigation();
   const userData = useSelector((state) => state.userData);
-  const userType = useSelector((state) => state.userData.userType)
-  console.log('userType:',userType)
-
+  const userType = useSelector((state) => state.userType);
   const profileImage = useSelector((state) => state.profileImage);
+
   const menuItems = [
     { id: '1', title: 'Personal Details', screen: 'PersonalDetails' },
     { id: '2', title: 'Security', screen: 'Security' },
@@ -27,51 +25,76 @@ const ProfilePage = () => {
     </TouchableOpacity>
   );
 
-
-
   return (
     <View style={styles.container}>
-      <Image
-        source={{ uri: profileImage || 'placeholder_image_url' }}
-        style={styles.profileImage}
-      />
+      {/* Profile Image */}
+      {profileImage ? (
+        <Image
+          source={{ uri: profileImage }}
+          style={styles.profileImage}
+        />
+      ) : (
+        <View style={styles.profilePlaceholder}>
+          <Text style={styles.profileText}>No Image</Text>
+        </View>
+      )}
 
       {/* Name */}
-
-
       <Text style={styles.name}>
         {userData?.name || 'Name not available'}
       </Text>
 
+      {/* Stats - Customer */}
+      {userType === 'customer' && (
+        <View style={styles.statsContainer}>
+          <View style={styles.ratingContainer}>
+            <Text style={styles.ratingText}>Rating: {userData?.customers?.data?.rating ?? 'N/A'}/5</Text>
+            <View style={styles.starsContainer}>
+              {[...Array(5)].map((_, index) => (
+                <FontAwesome
+                  key={index}
+                  name="star"
+                  size={16}
+                  color={index < userData?.customers?.data?.rating ? '#FFD700' : '#ccc'}
+                />
+              ))}
+            </View>
+          </View>
 
-
-
-      {/* Rating and Rides */}
-      <View style={styles.statsContainer}>
-        <View style={styles.ratingContainer}>
-          <Text style={styles.ratingText}>Rating: {userData?.userType === 'customer' ? userData?.customers?.data?.rating : userData?.drivers?.data?.rating}/5</Text>
-          <View style={styles.starsContainer}>
-
-
-            {[...Array(5)].map((_, index) => (
-              <FontAwesome
-                key={index}
-                name="star"
-                size={16}
-                color={index < 4.5 ? '#FFD700' : '#ccc'}
-              />
-            ))}
+          <View style={styles.ridesContainer}>
+            <Text style={styles.ridesText}>Rides Taken</Text>
+            <Text style={styles.ridesCount}>
+              {userData?.customers?.data?.ridesTaken ?? 0}
+            </Text>
           </View>
         </View>
+      )}
 
-        <View style={styles.ridesContainer}>
-          <Text style={styles.ridesText}>{userData?.userType === 'customer' ? 'Rides Taken' : 'Rides Completed'}</Text>
-          <Text style={styles.ridesCount}>
-            {userData?.userType === 'customer' ? userData?.customers?.data?.ridesTaken : userData?.drivers?.data?.ridesCompleted}
-          </Text>
+      {/* Stats - Driver */}
+      {userType === 'driver' && (
+        <View style={styles.statsContainer}>
+          <View style={styles.ratingContainer}>
+            <Text style={styles.ratingText}>Rating: {userData?.drivers?.data?.rating ?? 'N/A'}/5</Text>
+            <View style={styles.starsContainer}>
+              {[...Array(5)].map((_, index) => (
+                <FontAwesome
+                  key={index}
+                  name="star"
+                  size={16}
+                  color={index < userData?.drivers?.data?.rating ? '#FFD700' : '#ccc'}
+                />
+              ))}
+            </View>
+          </View>
 
+          <View style={styles.ridesContainer}>
+            <Text style={styles.ridesText}>Rides Completed</Text>
+            <Text style={styles.ridesCount}>
+              {userData?.drivers?.data?.ridesCompleted ?? 0}
+            </Text>
+          </View>
         </View>
-      </View>
+      )}
 
       {/* Menu Items */}
       <FlatList
@@ -97,15 +120,6 @@ const ProfilePage = () => {
 export default ProfilePage;
 
 const styles = StyleSheet.create({
-  profileImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    alignSelf: 'center',
-    marginTop: 20,
-  },
-
-
   container: {
     marginTop: 30,
     flex: 1,

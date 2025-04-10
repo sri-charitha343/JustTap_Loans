@@ -11,6 +11,7 @@ const CompleteCustomerProfile = () => {
   const dispatch = useDispatch();
 
   const customerDetails = useSelector(state => state.customers.data);
+  console.log(customerDetails)
   const profilePicture = useSelector(state => state.profileImage);
   const aadharNumber = useSelector(state => state.aadharNumber);
   const panNumber = useSelector(state => state.panNumber);
@@ -72,7 +73,7 @@ const CompleteCustomerProfile = () => {
       {/* User Details */}
       <View style={styles.detailsContainer}>
         <Text style={styles.detail}>Name: {customerDetails?.name || 'N/A'}</Text>
-        <Text style={styles.detail}>DOB: {customerDetails?.dob || 'N/A'}</Text>
+        <Text style={styles.detail}>DOB: {customerDetails?.dateOfBirth|| 'N/A'}</Text>
         <Text style={styles.detail}>Gender: {customerDetails?.gender || 'N/A'}</Text>
         <Text style={styles.detail}>Mobile: {customerDetails?.phoneNumber || 'Not available'}</Text>
         <Text style={styles.detail}>Email: {customerDetails?.email || 'N/A'}</Text>

@@ -15,7 +15,10 @@ const DiffLoans = () => {
   ];
   const resetSelection = () => {
     setSelectedLoan(null);
+    navigation.navigate('LoansPage'); 
   };
+  
+  
 
   return (
     <SafeAreaView style={styles.container}>

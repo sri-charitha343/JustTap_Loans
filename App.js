@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import rootReducer from './app/store_management/reducers/reducers';
-import store from './app/store_management/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './app/store_management/store';
 import { NavigationContainer } from '@react-navigation/native';
 import CompleteCustomerProfile from './app/Screens/RegistrationProcessScreens/CustomerRegistration/CompleteCustomerProfile';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -47,7 +47,8 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <Provider store={store}>
-      <NavigationContainer>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer>
         <Stack.Navigator initialRouteName="SplashScreen">
           <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
           <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
@@ -91,7 +92,8 @@ export default function App() {
           <Stack.Screen name="PersonalDetails" component={PersonalDetails} options={{ headerShown: false }} />
           <Stack.Screen name="Security" component={Security} options={{ headerShown: false }} />
         </Stack.Navigator>
-      </NavigationContainer>
+        </NavigationContainer>
+      </PersistGate>
     </Provider>
   );
 }

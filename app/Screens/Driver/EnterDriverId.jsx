@@ -1,14 +1,15 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native'; // Import useNavigation
+import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux'; 
 import { setDrivers } from '../../store_management/actions/actions';
+import { store } from '../../store_management/store';
 
 const EnterDriverId = () => {
   const [driverId, setDriverId] = useState('');
   const dispatch = useDispatch();
-  const navigation = useNavigation(); // Define navigation
+  const navigation = useNavigation();
 
   const handleVerify = async () => {
     if (!driverId.trim()) {
@@ -18,15 +19,18 @@ const EnterDriverId = () => {
 
     try {
       const response = await axios.get(`http://192.168.29.232:3002/api/loan/checkCaptainId/${driverId}`);
-      console.log("Response from API:", response.data);
-      console.log("Driver Details:", response.data); // Log entire response for debugging
-
-
+      console.log("Full API Response:", JSON.stringify(response.data, null, 2));
 
       if (response.data.exists) { 
-        dispatch(setDrivers(response.data.captainDetails, false)); 
-
-        navigation.navigate('BasicProfileDetailsDriver'); // Now navigation is defined
+        const driverData = response.data.captainDetails;
+        const payload = {
+          existsInBoth: response.data.exists,
+          data: response.data.captainDetails
+        };
+        
+        dispatch(setDrivers(payload));
+        
+        navigation.navigate('BasicProfileDetailsDriver');
       } else {
         Alert.alert('Invalid ID', 'Driver ID not found in the system.');
       }

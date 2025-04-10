@@ -17,9 +17,16 @@ const BasicProfileDetailsDriver = () => {
   const [aadharVerified, setAadharVerified] = useState(false);
   const [panVerified, setPanVerified] = useState(false);
   
-  const driverDetails = useSelector((state) => state.drivers.data);
-  console.log("Driver Details:", driverDetails);
+  const driversState = useSelector(state => state.drivers);
+  const driverDetails = driversState.data;
+  
+  
+  console.log("Basic Driver details:", JSON.stringify(driverDetails, null, 2));
+  
+  React.useEffect(() => {
+  }, [driverDetails]);
 
+  
   const verifyAadhar = () => {
     navigation.navigate("AadharOpt");
     setAadharVerified(true);
@@ -36,6 +43,8 @@ const BasicProfileDetailsDriver = () => {
       navigation.navigate("DriverLoan");
     }, 2000);
   };
+  const getImageUrl = (filename) => `http://192.168.29.232:3002/uploads/${filename}`;
+
 
   const isNextDisabled = !(aadharVerified && panVerified);
 
@@ -52,7 +61,7 @@ const BasicProfileDetailsDriver = () => {
           <View style={styles.imagePlaceholder}>
             {driverDetails?.profilePicture?.path ? (
               <Image
-                source={{ uri: driverDetails.profilePicture.path }}
+                source={{ uri:  getImageUrl(driverDetails.profilePicture.filename) }}
                 style={{ width: 120, height: 120, borderRadius: 60 }}
               />
             ) : (
@@ -68,13 +77,13 @@ const BasicProfileDetailsDriver = () => {
           </View>
 
           <View style={styles.detailsContainer}>
-            <Text style={styles.detail}>Name: {driverDetails?.name ?? "Not Provided"}</Text>
-            <Text style={styles.detail}>DOB: {driverDetails?.dob ?? "Not Provided"}</Text>
-            <Text style={styles.detail}>Gender: {driverDetails?.gender ?? "Not Provided"}</Text>
-            <Text style={styles.detail}>Mobile: {driverDetails?.mobileNumber ?? "Not Provided"}</Text>
-            <Text style={styles.detail}>Email: {driverDetails?.email ?? "Not Provided"}</Text>
+            <Text style={styles.detail}>Name: {driverDetails.name ?? "Not Provided"}</Text>
+            <Text style={styles.detail}>DOB: {driverDetails.dob ?? "Not Provided"}</Text>
+            <Text style={styles.detail}>Gender: {driverDetails.gender ?? "Not Provided"}</Text>
+            <Text style={styles.detail}>Mobile: {driverDetails.mobileNumber ?? "Not Provided"}</Text>
+            <Text style={styles.detail}>Email: {driverDetails.email ?? "Not Provided"}</Text>
             <Text style={styles.detail}>No. of Rides Completed: {driverDetails?.ridesCompleted ?? "Not Provided"}</Text>
-            <Text style={styles.detail}>Vehicle Type: {driverDetails?.vehicleType ?? "Not Provided"}</Text>
+            <Text style={styles.detail}>Vehicle Type: {driverDetails.vehicleType ?? "Not Provided"}</Text>
 
             <View style={styles.verifyRow}>
               <Text style={styles.detail}>

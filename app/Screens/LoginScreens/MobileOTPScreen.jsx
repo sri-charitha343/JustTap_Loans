@@ -11,7 +11,7 @@ const MobileOTPScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   
 
-  const userType = useSelector((state) => state.userData.userType);
+  const userType = useSelector((state) => state.userType);
 
   const handleSubmit = async () => {
     if (otp === '1234') {
