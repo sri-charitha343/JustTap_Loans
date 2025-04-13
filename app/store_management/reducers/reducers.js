@@ -41,7 +41,12 @@ const initialState = {
     isTaken: false,
     amount: 0,
     term: 0,
-    repaymentDate: null
+    repaymentDate: null,
+    withdrawnAmount: 0,
+    totalWithdrawnAmount: 0,
+    remainingAvailableAmount: 0,
+    totalRepaymentAmount: 0,
+    emiThisMonth: 0
   },
   loanType: 0
 };
@@ -51,14 +56,13 @@ const rootReducer = (state = initialState, action) => {
     case SET_AADHAR_VERIFIED:
       return {
         ...state,
-        aadharVerified: action.payload, // Update verification status
+        aadharVerified: action.payload,
       };
 
-    case SET_PAN_VERIFIED: // Corrected to update panVerified
+    case SET_PAN_VERIFIED:
         return {
             ...state,
-            panVerified: action.payload, // Update verification status
-
+            panVerified: action.payload,
         };
 
     case STORE_PROFILE_IMAGE:
@@ -103,12 +107,11 @@ const rootReducer = (state = initialState, action) => {
         panNumber: action.payload,
       };
 
-      case SET_USER_TYPE:
-  return {
-    ...state,
-    userType: action.payload,
-  };
-
+    case SET_USER_TYPE:
+      return {
+        ...state,
+        userType: action.payload,
+      };
 
     case SET_DRIVERS:
       console.log("Setting driver details in reducer:", action.payload);
@@ -116,6 +119,7 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         drivers: action.payload
       };
+
     case SET_CUSTOMERS:
       return {
         ...state,
@@ -141,27 +145,31 @@ const rootReducer = (state = initialState, action) => {
           repaymentDate: action.payload.repaymentDate
         }
       };
+
     case 'SET_LOAN_TYPE':
       return {
         ...state,
         loanType: action.payload
       };
+
     case 'RESET_LOAN_TYPE':
       return {
         ...state,
         loanType: 0
       };
+
     case 'UPDATE_ACTIVE_AMOUNT':
       return {
         ...state,
         loan: {
           ...state.loan,
-          amount: state.loan.amount - action.payload.amount,
-          withdrawnAmount: (state.loan.withdrawnAmount || 0) + action.payload.withdrawnAmount,
-          repaymentDate: action.payload.repaymentDate || state.loan.repaymentDate
+          withdrawnAmount: action.payload.withdrawnAmount,
+          repaymentDate: action.payload.repaymentDate || state.loan.repaymentDate,
+          totalWithdrawnAmount: action.payload.totalAmount || (action.payload.withdrawnAmount + 120 + 40),
+          remainingAvailableAmount: state.loan.amount - action.payload.withdrawnAmount,
+          emiThisMonth: action.payload.emiThisMonth || 0
         }
       };
-      
 
     default:
       return state;

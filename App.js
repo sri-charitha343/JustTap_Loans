@@ -42,6 +42,10 @@ import InviteFriends from './app/Screens/AfterLoginScreens/HomePageScreens/Invit
 import HelpPage from './app/Screens/AfterLoginScreens/HomePageScreens/HelpPage';
 import AllTransactions from './app/Screens/AfterLoginScreens/HomePageScreens/OverViewPages/AllTransactions';
 import TakeOrPayPage from './app/Screens/AfterLoginScreens/HomePageScreens/TakeOrPayPage';
+import TakenAmountSummary from './app/Screens/AfterLoginScreens/HomePageScreens/TakeProcessPages/TakenAmountSummary';
+import EmiPlanPage from './app/Screens/AfterLoginScreens/HomePageScreens/TakeProcessPages/EmiPlanPage';
+import PaymentPage from './app/Screens/AfterLoginScreens/HomePageScreens/TakeProcessPages/PaymentPage';
+import ChooseAPlan from './app/Screens/AfterLoginScreens/HomePageScreens/ChooseAPlan';
 
 const Stack = createNativeStackNavigator();
 
@@ -88,6 +92,10 @@ export default function App() {
           <Stack.Screen name="InviteFriends" component={InviteFriends}  />
           <Stack.Screen name="HelpPage" component={HelpPage} options={{ headerShown: false }}  />
           <Stack.Screen name="TakeOrPayPage" component={TakeOrPayPage} options={{ headerShown: false }} />
+          <Stack.Screen name="TakenAmountSummary" component={TakenAmountSummary} options={{ headerShown: false }} />
+          <Stack.Screen name="EmiPlanPage" component={EmiPlanPage} options={{ headerShown: false }} />
+          <Stack.Screen name="PaymentPage" component={PaymentPage} options={{ headerShown: false }} />
+          <Stack.Screen name="ChooseAPlan" component={ChooseAPlan} options={{ headerShown: false }} />
 
 
           <Stack.Screen name="ProfilePage" component={ProfilePage} options={{ headerShown: false }} />

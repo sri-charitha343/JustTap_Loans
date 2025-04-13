@@ -102,6 +102,7 @@ export const updateActiveAmount = (withdrawalData) => ({
   payload: {
     amount: withdrawalData.amount,
     withdrawnAmount: withdrawalData.withdrawnAmount,
-    repaymentDate: withdrawalData.repaymentDate
+    repaymentDate: withdrawalData.repaymentDate,
+    emiThisMonth: withdrawalData.emiThisMonth
   }
 });

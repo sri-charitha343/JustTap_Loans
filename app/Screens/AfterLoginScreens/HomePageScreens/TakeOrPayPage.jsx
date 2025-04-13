@@ -41,7 +41,7 @@ const TakeOrPayPage = ({navigation}) => {
         withdrawnAmount: enteredAmount,
         repaymentDate: repaymentDate.toISOString().split('T')[0]
       }));
-      navigation.goBack();
+      navigation.navigate('TakenAmountSummary',{withdrawnAmount: enteredAmount});
     }
   };
 
@@ -62,7 +62,17 @@ const TakeOrPayPage = ({navigation}) => {
         </View>
       </View>
 
-      <Text style={styles.limitText}>Available: ₹{availableAmount.toLocaleString()}</Text>
+       <>
+                  {loan?.withdrawnAmount > 0 ? (
+                    <Text style={styles.limitText}>
+                      Available:₹{loan.remainingAvailableAmount?.toLocaleString()}
+                    </Text>
+                  ) : (
+                    <Text style={styles.limitText}>
+                     Available: ₹{loan.amount}
+                    </Text>
+                  )}
+                </>
 
       <View style={styles.padContainer}>
         {dialPad.map((item, index) => (

@@ -40,8 +40,19 @@ const HomePage = () => {
       {loan?.isTaken ? (
         <View style={styles.loanCard}>
           <Text style={styles.loanActiveText}>🎯 Active Loan Summary</Text>
+          <>
+            {loan?.withdrawnAmount > 0 ? (
+              <Text style={styles.loanActiveText}>
+                ₹{loan.remainingAvailableAmount?.toLocaleString()}
+              </Text>
+            ) : (
+              <Text style={styles.loanAmount}>
+                ₹{loan.amount}
+              </Text>
+            )}
+          </>
 
-          <Text style={styles.loanAmount}>₹{loan.amount?.toLocaleString()}</Text>
+
 
           <View style={styles.loanInfoContainer}>
             <View style={styles.loanInfoBox}>
@@ -52,6 +63,7 @@ const HomePage = () => {
               <Text style={styles.loanInfoLabel}>Term</Text>
               <Text style={styles.loanInfoValue}>{loan.term} days</Text>
             </View>
+
           </View>
 
           <TouchableOpacity style={styles.takeAmountBtn} onPress={() => navigation.navigate('TakeOrPayPage')}>
@@ -60,18 +72,19 @@ const HomePage = () => {
 
           {loan?.withdrawnAmount > 0 && (
             <View>
-            <Text style={styles.repaymentTitle}>💳 Repayment Details</Text>
-            <View style={styles.repaymentBox}>
-              
-              <View style={styles.repaymentLeft}>
-                <Text style={styles.repaymentAmount}>Amount: ₹{loan.withdrawnAmount?.toLocaleString()}</Text>
-                <Text style={styles.repaymentDate}>Due: {loan.repaymentDate}</Text>
+              <Text style={styles.repaymentTitle}>💳 Repayment Details</Text>
+              <View style={styles.repaymentBox}>
+
+                <View style={styles.repaymentLeft}>
+                  <Text style={styles.repaymentAmount}>Amount: ₹{loan.withdrawnAmount?.toLocaleString()}</Text>
+                  <Text style={styles.emiAmount}>EMI This Month: ₹{loan.emiThisMonth?.toLocaleString()}</Text>
+                  <Text style={styles.repaymentDate}>Due: {loan.repaymentDate}</Text>
+                </View>
+                <TouchableOpacity style={styles.payNowButton} onPress={() => navigation.navigate('ChooseAPlan')}>
+                  <Text style={styles.payNowText}>Pay Now</Text>
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity style={styles.payNowButton}>
-                <Text style={styles.payNowText}>Pay Now</Text>
-              </TouchableOpacity>
             </View>
-          </View>
           )}
         </View>
       ) : userType === 'customer' ? (
@@ -288,6 +301,7 @@ const styles = StyleSheet.create({
   repaymentAmount: {
     fontSize: 15,
     color: '#fff',
+    fontWeight: 'bold',
     marginBottom: 3,
   },
   repaymentDate: {
@@ -305,4 +319,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
   },
+  emiAmount: {
+    color: '#fff',
+  }
 });
