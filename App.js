@@ -41,6 +41,7 @@ import Cards from './app/Screens/AfterLoginScreens/HomePageScreens/Cards';
 import InviteFriends from './app/Screens/AfterLoginScreens/HomePageScreens/InviteFriends';
 import HelpPage from './app/Screens/AfterLoginScreens/HomePageScreens/HelpPage';
 import AllTransactions from './app/Screens/AfterLoginScreens/HomePageScreens/OverViewPages/AllTransactions';
+import TakeOrPayPage from './app/Screens/AfterLoginScreens/HomePageScreens/TakeOrPayPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -86,6 +87,7 @@ export default function App() {
           <Stack.Screen name="Cards" component={Cards} options={{ headerShown: false }} />
           <Stack.Screen name="InviteFriends" component={InviteFriends}  />
           <Stack.Screen name="HelpPage" component={HelpPage} options={{ headerShown: false }}  />
+          <Stack.Screen name="TakeOrPayPage" component={TakeOrPayPage} options={{ headerShown: false }} />
 
 
           <Stack.Screen name="ProfilePage" component={ProfilePage} options={{ headerShown: false }} />

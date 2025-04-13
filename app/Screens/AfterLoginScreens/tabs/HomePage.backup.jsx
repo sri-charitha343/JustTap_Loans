@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useSelector } from 'react-redux';
@@ -7,17 +7,26 @@ import DiffLoans from '../../Customer/DiffLoans';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 
+
+
 const HomePage = () => {
+
+
   const profileImage = useSelector(state => state.profileImage);
   const navigation = useNavigation();
   const userType = useSelector((state) => state.userType);
   const loan = useSelector((state) => state.loan);
   console.log("loan details:", loan);
   console.log("user type:", userType);
-
   const handleProfilePress = () => {
     navigation.navigate('ProfilePage');
   };
+
+  React.useEffect(() => {
+    if (loan?.isTaken) {
+      navigation.navigate('TakeOrPayPage');
+    }
+  }, [loan?.isTaken]);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
@@ -35,58 +44,58 @@ const HomePage = () => {
         <TouchableOpacity onPress={() => navigation.navigate('HelpPage')}>
           <MaterialIcons name="support-agent" size={45} color="#0F4A97" right={0} />
         </TouchableOpacity>
+
       </View>
 
+
       {loan?.isTaken ? (
-        <View style={styles.loanCard}>
-          <Text style={styles.loanActiveText}>🎯 Active Loan Summary</Text>
-
-          <Text style={styles.loanAmount}>₹{loan.amount?.toLocaleString()}</Text>
-
-          <View style={styles.loanInfoContainer}>
-            <View style={styles.loanInfoBox}>
-              <Text style={styles.loanInfoLabel}>Due Date</Text>
-              <Text style={styles.loanInfoValue}>{loan.repaymentDate}</Text>
-            </View>
-            <View style={styles.loanInfoBox}>
-              <Text style={styles.loanInfoLabel}>Term</Text>
-              <Text style={styles.loanInfoValue}>{loan.term} days</Text>
-            </View>
+        <View>
+          <Text style={styles.loanActiveText}>Your active loan</Text>
+          <Text style={styles.loanAmount}>₹{loan.activeAmount || loan.amount}</Text>
+          <View style={styles.loanInfoRow}>
+            <Text style={styles.loanDuration}>Due Date: {loan.repaymentDate}</Text>
+            <Text style={styles.loanDuration}>Days: {loan.term}</Text>
           </View>
 
-          <TouchableOpacity style={styles.takeAmountBtn} onPress={() => navigation.navigate('TakeOrPayPage')}>
-            <Text style={styles.takeAmountText}>+ Take More Amount</Text>
-          </TouchableOpacity>
-
-          {loan?.withdrawnAmount > 0 && (
-            <View>
-            <Text style={styles.repaymentTitle}>💳 Repayment Details</Text>
-            <View style={styles.repaymentBox}>
-              
-              <View style={styles.repaymentLeft}>
-                <Text style={styles.repaymentAmount}>Amount: ₹{loan.withdrawnAmount?.toLocaleString()}</Text>
-                <Text style={styles.repaymentDate}>Due: {loan.repaymentDate}</Text>
+          <View style={styles.loanActionsContainer}>
+            <TouchableOpacity 
+              style={styles.TakeAmountButton} 
+              onPress={() => navigation.navigate('TakeOrPayPage')}
+            >
+              <Text style={styles.TakeAmountBtnText}>Take Amount</Text>
+            </TouchableOpacity>
+            
+            {loan.activeAmount > 0 && (
+              <View style={styles.paymentBox}>
+                <Text style={styles.paymentText}>Amount to Pay: ₹{loan.activeAmount}</Text>
+                <TouchableOpacity style={styles.payCircleButton}>
+                  <Text style={styles.payButtonText}>Pay</Text>
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity style={styles.payNowButton}>
-                <Text style={styles.payNowText}>Pay Now</Text>
-              </TouchableOpacity>
-            </View>
+            )}
           </View>
-          )}
         </View>
       ) : userType === 'customer' ? (
         <View>
           <DiffLoans />
         </View>
       ) : (
+
         <View style={styles.driverContent}>
           <Text style={styles.text}>Welcome, Driver</Text>
+
         </View>
       )}
 
+
       <View style={styles.bottomcontainer}>
         <View style={styles.inrow}>
-          <View style={styles.overviewItem}>
+          <View styles={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            marginTop: 20,
+          }}>
             <TouchableOpacity
               style={[styles.overview, !loan?.isTaken && styles.disabledBox]}
               onPress={() => loan?.isTaken && navigation.navigate('OverView')}
@@ -94,10 +103,15 @@ const HomePage = () => {
             >
               <Icon name="piechart" size={40} color={loan?.isTaken ? "white" : "#aaa"} />
             </TouchableOpacity>
+
             <Text style={[styles.overviewText, !loan?.isTaken && styles.disabledText]}>Overview</Text>
           </View>
-
-          <View style={styles.overviewItem}>
+          <View styles={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            marginTop: 20,
+          }}>
             <TouchableOpacity
               style={[styles.overview, !loan?.isTaken && styles.disabledBox]}
               onPress={() => loan?.isTaken && navigation.navigate('Cards')}
@@ -105,10 +119,10 @@ const HomePage = () => {
             >
               <Icon name="creditcard" size={40} color={loan?.isTaken ? "white" : "#aaa"} />
             </TouchableOpacity>
+
             <Text style={[styles.overviewText, !loan?.isTaken && styles.disabledText]}>Cards</Text>
           </View>
         </View>
-
         <TouchableOpacity style={styles.friends} onPress={() => navigation.navigate('InviteFriends')}>
           <Text style={styles.friendsText}>Invite Friends get bonus</Text>
         </TouchableOpacity>
@@ -130,6 +144,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
+  },
+  driverText: {
+    fontSize: 16,
+    color: '#666',
+    marginVertical: 10,
   },
   header: {
     flexDirection: 'row',
@@ -160,7 +179,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#0f4a97',
     paddingVertical: 20,
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 10
   },
   overview: {
     backgroundColor: '#0f4a97',
@@ -169,12 +188,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 20,
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-  overviewItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
+    alignItems: 'center'
   },
   inrow: {
     flexDirection: 'row',
@@ -182,10 +196,11 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   overviewText: {
+    marginTop: 10,
     fontSize: 16,
     color: 'black',
     fontWeight: 'bold',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   friendsText: {
     fontSize: 14,
@@ -196,113 +211,156 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     alignItems: 'center',
   },
+  driverButton: {
+    backgroundColor: '#0F4A97',
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  driverButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  loanActiveText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#0f4a97',
+    textAlign: 'center',
+    marginVertical: 10,
+  },
+  loanAmount: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  TakeAmountButton: {
+    margin: 20,
+    backgroundColor: '#0F4A97',
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 20,
+  },
+  TakeAmountBtnText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
   disabledBox: {
     backgroundColor: '#e0e0e0',
   },
   disabledText: {
     color: '#aaa',
   },
-  loanCard: {
-    backgroundColor: '#f4f8ff',
-    padding: 20,
-    borderRadius: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 5 },
-    elevation: 6,
-    marginTop: 10,
-  },
-  loanActiveText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#0f4a97',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  loanAmount: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: '#000',
-  },
-  loanInfoContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 20,
+  loanInfoRow: {
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    marginVertical: 5,
     paddingHorizontal: 10,
   },
-  loanInfoBox: {
+  
+  loanDuration: {
+    fontSize: 13,
+    color: '#333', 
+    marginVertical: 0,
+    fontWeight: '500',
+  },
+  loanActionsContainer: {
+    marginTop: 20,
     alignItems: 'center',
   },
-  loanInfoLabel: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 4,
-  },
-  loanInfoValue: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#0f4a97',
-  },
-  takeAmountBtn: {
-    marginTop: 25,
-    backgroundColor: '#0f4a97',
-    borderRadius: 25,
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    alignSelf: 'center',
-    shadowColor: '#0f4a97',
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 5,
-  },
-  takeAmountText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  repaymentBox: {
-    marginTop: 5,
-    backgroundColor: '#0f4a97',
-    borderRadius: 15,
+  paymentBox: {
+    marginTop: 20,
     padding: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    backgroundColor: '#f5f5f5',
+    borderRadius: 10,
+    width: '80%',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 4,
   },
-  repaymentLeft: {
-    flex: 1,
-  },
-  repaymentTitle: {
+  paymentText: {
     fontSize: 16,
-    color: '#0f4a97',
     fontWeight: 'bold',
-    marginTop: 30,
+    marginBottom: 10,
+    color: '#333',
   },
-  repaymentAmount: {
-    fontSize: 15,
-    color: '#fff',
-    marginBottom: 3,
-  },
-  repaymentDate: {
-    fontSize: 14,
-    color: '#fff',
-  },
-  payNowButton: {
-    backgroundColor: 'white',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+  payButton: {
+    backgroundColor: '#FF5722',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
     borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 3,
   },
-  payNowText: {
-    color: '#0f4a97',
+  payButtonText: {
+    color: '#fff',
+    fontSize: 16,
     fontWeight: 'bold',
-    fontSize: 14,
   },
+  loanActionsContainer: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  paymentBox: {
+    marginTop: 20,
+    padding: 15,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 10,
+    width: '80%',
+    alignItems: 'center',
+  },
+  paymentText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#333',
+  },
+  payButton: {
+    backgroundColor: '#FF5722',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 3,
+  },
+  payButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  loanActionsContainer: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  paymentBox: {
+    marginTop: 20,
+    padding: 15,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 10,
+    width: '80%',
+    alignItems: 'center',
+  },
+  paymentText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#333',
+  },
+  payCircleButton: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#FF5722',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 3,
+  },
+  payButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 18,
+  }
+  
 });

@@ -11,6 +11,18 @@ export const STORE_PAN_FRONT_IMAGE = "STORE_PAN_FRONT_IMAGE";
 export const STORE_PAN_BACK_IMAGE = "STORE_PAN_BACK_IMAGE";
 export const SET_AADHAR_VERIFIED = "SET_AADHAR_VERIFIED";
 export const SET_PAN_VERIFIED = "SET_PAN_VERIFIED";
+export const SET_LOAN_TAKEN = "SET_LOAN_TAKEN";
+export const SET_LOAN_TYPE = "SET_LOAN_TYPE";
+export const RESET_LOAN_TYPE = "RESET_LOAN_TYPE";
+
+export const setLoanType = (loanType) => ({
+  type: SET_LOAN_TYPE,
+  payload: loanType
+});
+
+export const resetLoanType = () => ({
+  type: RESET_LOAN_TYPE
+});
 
 export const setDrivers = (driverData) => ({
   type: SET_DRIVERS,
@@ -78,4 +90,18 @@ export const setAadharVerified = (data) => ({
 export const setPanVerified = (data) => ({
   type: SET_PAN_VERIFIED,
   payload: data
+});
+
+export const setLoanTaken = (status) => ({
+  type: SET_LOAN_TAKEN,
+  payload: status, // true or false
+});
+
+export const updateActiveAmount = (withdrawalData) => ({
+  type: 'UPDATE_ACTIVE_AMOUNT',
+  payload: {
+    amount: withdrawalData.amount,
+    withdrawnAmount: withdrawalData.withdrawnAmount,
+    repaymentDate: withdrawalData.repaymentDate
+  }
 });

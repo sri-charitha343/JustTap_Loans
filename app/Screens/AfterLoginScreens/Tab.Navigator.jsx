@@ -4,11 +4,15 @@ import HomeScreen from "./tabs/HomePage";
 import ExploreScreen from "./tabs/ExploreScreen";
 import LoansPage from "./tabs/LoansPage";
 import ActivityPage from "./tabs/ActivityPage";
+import ScannerPage from "./tabs/ScannerPage";
 import { StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
 
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
+  const loan = useSelector((state) => state.loan);
+  
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -18,6 +22,8 @@ export default function TabNavigator() {
             iconName = "home"; // Home icon
           } else if (route.name === "Explore") {
             iconName = "search"; // Search icon for Explore
+          } else if (route.name === "Scanner") {
+            iconName = "scan"; // Scan icon for Scanner
           } else if (route.name === "Loans") {
             iconName = "create"; // File edit icon for Loans (create)
           } else if (route.name === "Activity") {
@@ -32,6 +38,9 @@ export default function TabNavigator() {
     >
       <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Tab.Screen name="Explore" component={ExploreScreen} options={{ headerShown: false }} />
+      {loan.isTaken && (
+        <Tab.Screen name="Scanner" component={ScannerPage} options={{ headerShown: false }} />
+      )}
       <Tab.Screen name="Loans" component={LoansPage} options={{ headerShown: false }} />
       <Tab.Screen name="Activity" component={ActivityPage} options={{ headerShown: false }} />
     </Tab.Navigator>

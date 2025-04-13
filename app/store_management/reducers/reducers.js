@@ -37,6 +37,13 @@ const initialState = {
   panVerified: false,
   
   userType: null,
+  loan: {
+    isTaken: false,
+    amount: 0,
+    term: 0,
+    repaymentDate: null
+  },
+  loanType: 0
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -123,6 +130,38 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         userData: action.payload,
       };
+
+    case 'SET_LOAN_TAKEN':
+      return {
+        ...state,
+        loan: {
+          isTaken: action.payload.isTaken,
+          amount: action.payload.amount,
+          term: action.payload.term,
+          repaymentDate: action.payload.repaymentDate
+        }
+      };
+    case 'SET_LOAN_TYPE':
+      return {
+        ...state,
+        loanType: action.payload
+      };
+    case 'RESET_LOAN_TYPE':
+      return {
+        ...state,
+        loanType: 0
+      };
+    case 'UPDATE_ACTIVE_AMOUNT':
+      return {
+        ...state,
+        loan: {
+          ...state.loan,
+          amount: state.loan.amount - action.payload.amount,
+          withdrawnAmount: (state.loan.withdrawnAmount || 0) + action.payload.withdrawnAmount,
+          repaymentDate: action.payload.repaymentDate || state.loan.repaymentDate
+        }
+      };
+      
 
     default:
       return state;

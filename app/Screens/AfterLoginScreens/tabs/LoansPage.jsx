@@ -1,16 +1,36 @@
 import React, { useState, useRef } from 'react';
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  TextInput,
+} from 'react-native';
 import Slider from '@react-native-community/slider';
 import moment from 'moment';
-import { useRoute } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const LoansPage = () => {
+  const navigation = useNavigation();
   const route = useRoute();
-const loanType = route.params?.loanType ?? 0;
 
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      if (route.params?.loanType === undefined) {
+        navigation.setParams({ loanType: 0 });
+      }
+    });
+    return unsubscribe;
+  }, [navigation, route.params]);
+
+  const loanType = route.params?.loanType ?? 0;
 
   const [loanAmount, setLoanAmount] = useState(5000);
   const [loanTerm, setLoanTerm] = useState(5);
+  const [editingAmount, setEditingAmount] = useState(false);
+
   const loanAmountRef = useRef(loanAmount);
   const loanTermRef = useRef(loanTerm);
 
@@ -19,11 +39,11 @@ const loanType = route.params?.loanType ?? 0;
   const getLoanLimits = () => {
     switch (loanType) {
       case 1:
-        return { min: 5000, max: 50000, title: 'Personal Loan', termMax: 30 };
+        return { min: 5000, max: 50000, title: 'Personal Loan', termMax: 20 };
       case 2:
         return { min: 500, max: 5000, title: 'Easy Loan', termMax: 10 };
       case 3:
-        return { min: 10000, max: 100000, title: 'Business Loan', termMax: 20 };
+        return { min: 10000, max: 100000, title: 'Business Loan', termMax: 45 };
       default:
         return { min: 500, max: 300000, title: 'Loan Calculator', termMax: 90 };
     }
@@ -31,19 +51,59 @@ const loanType = route.params?.loanType ?? 0;
 
   const { min, max, title, termMax } = getLoanLimits();
 
+  const dispatch = useDispatch();
+
+  const handleGetMoney = () => {
+    dispatch({
+      type: 'SET_LOAN_TAKEN',
+      payload: {
+        isTaken: true,
+        amount: loanAmount,
+        term: loanTerm,
+        repaymentDate: formattedDate,
+      },
+    });
+    navigation.navigate('Home')
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>{title}</Text>
       <View style={styles.loanContainer}>
         <Text style={styles.label}>Loan Amount</Text>
+        <TouchableOpacity onPress={() => setEditingAmount(true)}>
+  {editingAmount ? (
+    <TextInput
+      style={styles.amountInput}
+      keyboardType="numeric"
+      value={loanAmount.toString()}
+      onChangeText={(text) => {
+        const numericValue = parseInt(text.replace(/[^0-9]/g, '')) || 0;
+        setLoanAmount(numericValue);
+        loanAmountRef.current = numericValue;
+      }}
+      onBlur={() => {
+        // Clamp value inside min/max on blur
+        const clampedValue = Math.max(min, Math.min(max, loanAmount));
+        setLoanAmount(clampedValue);
+        loanAmountRef.current = clampedValue;
+        setEditingAmount(false);
+      }}
+      autoFocus
+    />
+  ) : (
+    <Text style={styles.amountDisplay}>₹{loanAmount}</Text>
+  )}
+</TouchableOpacity>
+
         <Slider
           style={styles.slider}
           minimumValue={min}
           maximumValue={max}
           value={loanAmountRef.current}
           step={500}
-          onValueChange={(value) => (loanAmountRef.current = value)} // Only updates ref
-          onSlidingComplete={(value) => setLoanAmount(value)} // Updates state after user stops
+          onValueChange={(value) => (loanAmountRef.current = value)}
+          onSlidingComplete={(value) => setLoanAmount(value)}
           minimumTrackTintColor="#0f4a97"
           maximumTrackTintColor="#ddd"
           thumbTintColor="#0f4a97"
@@ -66,10 +126,22 @@ const loanType = route.params?.loanType ?? 0;
           maximumTrackTintColor="#ddd"
           thumbTintColor="#0f4a97"
         />
+        <View style={styles.termTicksContainer}>
+          {[...Array(Math.floor(termMax / 5)).keys()].map((i) => {
+            const val = (i + 1) * 5;
+            return val <= termMax ? (
+              <Text key={val} style={styles.tickLabel}>
+                {val}
+              </Text>
+            ) : null;
+          })}
+        </View>
         <View style={styles.rangeContainer}>
+          
           <Text style={styles.rangeText}>5 days</Text>
           <Text style={styles.rangeText}>{termMax} days</Text>
         </View>
+        
       </View>
 
       <View style={styles.infoBox}>
@@ -84,7 +156,7 @@ const loanType = route.params?.loanType ?? 0;
           <Text style={styles.infoText}>{formattedDate}</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.button} >
+      <TouchableOpacity style={styles.button} onPress={handleGetMoney}>
         <Text style={styles.buttonText}>Get Money</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -164,5 +236,32 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
+  },
+  amountInput: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#0f4a97',
+    borderBottomWidth: 1,
+    borderColor: '#0f4a97',
+    padding: 5,
+    textAlign: 'center',
+    marginVertical: 10,
+  },
+  amountDisplay: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#0f4a97',
+    textAlign: 'center',
+    marginVertical: 10,
+  },
+  termTicksContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 5,
+    marginTop: -10,
+  },
+  tickLabel: {
+    fontSize: 7,
+    color: '#333',
   },
 });
