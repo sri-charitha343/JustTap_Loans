@@ -33,7 +33,7 @@ const AllTransactions = ({ navigation }) => {
     const selectedMonthString = `${enteredYear}-${String(selectedMonth + 1).padStart(2, '0')}`;
 
     const filteredTransactions = mockTransactions.filter(t =>
-        t.date.startsWith(selectedMonthString)
+        t.date.startsWith(selectedMonthString) && t.status !== 'Failed'
     );
 
     const renderTransaction = ({ item }) => (

@@ -11,9 +11,30 @@ export const STORE_PAN_FRONT_IMAGE = "STORE_PAN_FRONT_IMAGE";
 export const STORE_PAN_BACK_IMAGE = "STORE_PAN_BACK_IMAGE";
 export const SET_AADHAR_VERIFIED = "SET_AADHAR_VERIFIED";
 export const SET_PAN_VERIFIED = "SET_PAN_VERIFIED";
+export const SET_STD_ID_VERIFIED = "SET_STD_ID_VERIFIED";
+export const STORE_STD_ID_NUMBER = "STORE_STD_ID_NUMBER";
 export const SET_LOAN_TAKEN = "SET_LOAN_TAKEN";
 export const SET_LOAN_TYPE = "SET_LOAN_TYPE";
 export const RESET_LOAN_TYPE = "RESET_LOAN_TYPE";
+
+export const SET_SELECTED_CATEGORY = "SET_SELECTED_CATEGORY";
+
+
+
+export const setSelectedCategory = (category, loanAmount) => ({
+  type: SET_SELECTED_CATEGORY,
+  payload: { category, loanAmount },
+});
+
+export const storeStdIDNumber = (data) => ({
+  type: STORE_STD_ID_NUMBER,
+  payload: data,
+});
+
+export const setStdIdVerified = (data) => ({
+  type: SET_STD_ID_VERIFIED,
+  payload: data,
+});
 
 export const setLoanType = (loanType) => ({
   type: SET_LOAN_TYPE,

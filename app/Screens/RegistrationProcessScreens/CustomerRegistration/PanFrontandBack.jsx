@@ -86,21 +86,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     color: 'black',
   },
-  goButton: {
-    backgroundColor: 'grey',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    marginLeft: 10,
-  },
-  goButtonActive: {
-    backgroundColor: 'yellow',
-  },
-  goButtonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'black',
-  },
+  
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',

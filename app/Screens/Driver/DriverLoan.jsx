@@ -1,11 +1,38 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSelectedCategory } from '../../store_management/actions/actions';
 
-const DriverLoan = ({navigation}) => {
+const DriverLoan = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const driversState = useSelector(state => state.drivers);
+  const driver = driversState.data;
+  console.log("Driver details:", JSON.stringify(driver, null, 2));
+
+  const getLoanAmount = () => {
+    switch (driver.vehicleType) {
+      case 'bike':
+        return 10000;
+      case 'auto':
+        return 20000;
+      case 'car':
+        return 30000;
+      default:
+        return 0;
+    }
+  };
+
+  useEffect(() => {
+    if (driver && driver.vehicleType) {
+      const amount = getLoanAmount();
+      dispatch(setSelectedCategory(driver.vehicleType, amount));
+    }
+  }, [driver, dispatch]);
+
   return (
     <LinearGradient colors={['#0F4A97', '#1565C0']} style={styles.container}>
-      <Text style={styles.welcomeText}>Hi Charitha,</Text>
+      <Text style={styles.welcomeText}>Hi {driver.name},</Text>
       <Text style={styles.subText}>Welcome to Just Tap Loans</Text>
 
       <View style={styles.eligibilityBox}>
@@ -13,20 +40,16 @@ const DriverLoan = ({navigation}) => {
         <Text style={styles.eligibleText}>
           You are eligible for the loan amount of:
         </Text>
-        <Text style={styles.amount}>₹ 50,000</Text>
+        
+        <Text style={styles.amount}>₹ {getLoanAmount()}</Text>
       </View>
 
       <Text style={styles.instructionText}>
         Want to take a loan? Follow the steps by clicking on "Next".
       </Text>
 
-      <TouchableOpacity style={styles.nextButton}
-        onPress={() => navigation.navigate('TakeSelfieDriver')}
-        >
-        <LinearGradient
-          colors={['#0D3C7E', '#0B2E66']}
-          style={styles.gradientButton}
-        >
+      <TouchableOpacity style={styles.nextButton} onPress={() => navigation.navigate('TakeSelfieDriver')}>
+        <LinearGradient colors={['#0D3C7E', '#0B2E66']} style={styles.gradientButton}>
           <Text style={styles.nextButtonText}>Next →</Text>
         </LinearGradient>
       </TouchableOpacity>

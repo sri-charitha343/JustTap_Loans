@@ -13,13 +13,16 @@ import {SET_DRIVERS,
 
 const SET_AADHAR_VERIFIED = "SET_AADHAR_VERIFIED";
 const SET_PAN_VERIFIED = "SET_PAN_VERIFIED"; 
+const SET_STD_ID_VERIFIED = "SET_STD_ID_VERIFIED";
 
 const initialState = {
+  loanAmount: 0,
   profileImage: null,
   aadharFrontImage: null, 
   aadharBackImage: null, 
   panFrontImage: null,   
   panBackImage: null,  
+  stdIdVerified: false,
     
   drivers: {
     existsInBoth: false,
@@ -38,6 +41,7 @@ const initialState = {
   
   userType: null,
   loan: {
+  selectedCategory: null,
     isTaken: false,
     amount: 0,
     term: 0,
@@ -64,6 +68,11 @@ const rootReducer = (state = initialState, action) => {
             ...state,
             panVerified: action.payload,
         };
+    case SET_STD_ID_VERIFIED:
+      return {
+        ...state,
+        stdIdVerified: action.payload,
+      };
 
     case STORE_PROFILE_IMAGE:
       return {
@@ -145,6 +154,17 @@ const rootReducer = (state = initialState, action) => {
           repaymentDate: action.payload.repaymentDate
         }
       };
+      case 'SET_SELECTED_CATEGORY':
+        return {
+          ...state,
+          loan: {
+            ...state.loan,
+            selectedCategory: action.payload.category,
+            amount: action.payload.loanAmount
+          }
+        };
+      
+
 
     case 'SET_LOAN_TYPE':
       return {

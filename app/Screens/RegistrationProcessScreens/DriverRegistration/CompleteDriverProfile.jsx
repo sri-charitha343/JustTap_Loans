@@ -129,8 +129,9 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.2)",
   },
   detail: {
-    color: "white",
+    color: "black",
     fontSize: 16,
+    fontWeight: "bold",
     marginBottom: 10
   },
   nextButton: {

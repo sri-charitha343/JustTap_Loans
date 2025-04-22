@@ -27,7 +27,7 @@ const handleTakeSelfie = async () => {
         {"2. Make sure the photo is well lit, free of glare, and in focus.\n"}
         {"3. No photos of a photo, filters, or alterations."}
         </Text>
-        <Image source={require('../../../assets/Images/takeselfie.jpg')} style={styles.image} resizeMode="contain"/>
+        <Image source={require('../../../../assets/Images/takeselfie.jpg')} style={styles.image} resizeMode="contain"/>
       </View>
       <View style={styles.footer}>
       </View>

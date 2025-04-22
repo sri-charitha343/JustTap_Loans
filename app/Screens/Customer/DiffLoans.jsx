@@ -58,7 +58,7 @@ const DiffLoans = () => {
 
       {selectedLoan && (
         <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.fabButton} onPress={() => navigation.navigate('Loans', { loanType: selectedLoan })}>
+          <TouchableOpacity style={styles.fabButton} onPress={() => navigation.navigate('Draw', { loanType: selectedLoan })}>
             <Ionicons name="arrow-forward" size={22} color="#fff" />
             <Text style={styles.fabText}>Next</Text>
           </TouchableOpacity>

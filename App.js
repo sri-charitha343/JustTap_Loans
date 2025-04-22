@@ -13,8 +13,8 @@ import EnterDriverId from './app/Screens/Driver/EnterDriverId';
 import SelectACatogory from './app/Screens/Driver/SelectACatogory';
 import DriverLoan from './app/Screens/Driver/DriverLoan';
 import DiffLoans from './app/Screens/Customer/DiffLoans';
-import TakeSelfie from './app/Screens/RegistrationProcessScreens/TakeSelfie';
-import ProfileImageScreen from './app/Screens/RegistrationProcessScreens/ProfileImageScreen';
+import TakeSelfie from './app/Screens/RegistrationProcessScreens/CustomerRegistration/TakeSelfie';
+import ProfileImageScreen from './app/Screens/RegistrationProcessScreens/CustomerRegistration/ProfileImageScreen';
 import AadharUpload from './app/Screens/RegistrationProcessScreens/CustomerRegistration/AadharUpload';
 import AadharFrontandBack from './app/Screens/RegistrationProcessScreens/CustomerRegistration/AadharFrontandBack';
 import PanFrontandBack from './app/Screens/RegistrationProcessScreens/CustomerRegistration/PanFrontandBack';
@@ -27,7 +27,7 @@ import Processing from './app/Screens/RegistrationProcessScreens/Processing';
 
 import TabNavigator from './app/Screens/AfterLoginScreens/Tab.Navigator';  // Ensure correct path
 import BasicProfileDetailsDriver from './app/Screens/RegistrationProcessScreens/DriverRegistration/BasicProfileDetailsDriver';
-import BasicProfileDetailsCustomer from './app/Screens/RegistrationProcessScreens/BasicProfileDetailsCustomer';
+import BasicProfileDetailsCustomer from './app/Screens/RegistrationProcessScreens/CustomerRegistration/BasicProfileDetailsCustomer';
 import AadharOpt from './app/Screens/RegistrationProcessScreens/DriverRegistration/AadharOpt';
 import PanOpt from './app/Screens/RegistrationProcessScreens/DriverRegistration/PanOpt';
 import TakeSelfieDriver from './app/Screens/RegistrationProcessScreens/DriverRegistration/TakeSelfieDriver';
@@ -46,6 +46,15 @@ import TakenAmountSummary from './app/Screens/AfterLoginScreens/HomePageScreens/
 import EmiPlanPage from './app/Screens/AfterLoginScreens/HomePageScreens/TakeProcessPages/EmiPlanPage';
 import PaymentPage from './app/Screens/AfterLoginScreens/HomePageScreens/TakeProcessPages/PaymentPage';
 import ChooseAPlan from './app/Screens/AfterLoginScreens/HomePageScreens/ChooseAPlan';
+import UserDetailsPage from './app/Screens/AfterLoginScreens/LoansPageSteps/UserDetailsPage';
+import CameraCapturePage from './app/Screens/AfterLoginScreens/LoansPageSteps/CameraCapturePage';
+import BankDetailsPage from './app/Screens/AfterLoginScreens/LoansPageSteps/BankDetailsPage';
+import LoanProcessingScreen from './app/Screens/AfterLoginScreens/LoansPageSteps/LoanProcessingScreen';
+import AfterProcessingPage from './app/Screens/AfterLoginScreens/LoansPageSteps/AfterProcessingPage';
+import CategoriesPage from './app/Screens/RegistrationProcessScreens/CustomerRegistration/CategoriesPage';
+import TransactionDetails from './app/Screens/AfterLoginScreens/ActivityPages/TransactionDetails';
+import StudentId from './app/Screens/RegistrationProcessScreens/CustomerRegistration/StudentId';
+import StudentIdUpload from './app/Screens/RegistrationProcessScreens/CustomerRegistration/StudentIdUpload';
 
 const Stack = createNativeStackNavigator();
 
@@ -59,12 +68,15 @@ export default function App() {
           <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
           <Stack.Screen name="EnterMobileNumber" component={EnterMobileNumber} options={{ headerShown: false }} />
           <Stack.Screen name="MobileOTPScreen" component={MobileOTPScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="CategoriesPage" component={CategoriesPage} options={{ headerShown: false }} />
           <Stack.Screen name="EnterDriverId" component={EnterDriverId} options={{ headerShown: false }} />
           <Stack.Screen name="SelectACatogory" component={SelectACatogory} options={{ headerShown: false }} />
           <Stack.Screen name="DriverLoan" component={DriverLoan} options={{ headerShown: false }} />
           <Stack.Screen name="DiffLoans" component={DiffLoans} options={{ headerShown: false }} />
           <Stack.Screen name="BasicProfileDetailsDriver" component={BasicProfileDetailsDriver} options={{ headerShown: false }} />
           <Stack.Screen name="BasicProfileDetailsCustomer" component={BasicProfileDetailsCustomer} options={{ headerShown: false }} />
+          <Stack.Screen name="StudentId" component={StudentId} options={{ headerShown: false }} />
+          <Stack.Screen name="StudentIdUpload" component={StudentIdUpload} options={{ headerShown: false }} />
           <Stack.Screen name="AadharOpt" component={AadharOpt} options={{ headerShown: false }} />
           <Stack.Screen name="PanOpt" component={PanOpt} options={{ headerShown: false }} />
           <Stack.Screen name="TakeSelfieDriver" component={TakeSelfieDriver} options={{ headerShown: false }} />
@@ -96,6 +108,14 @@ export default function App() {
           <Stack.Screen name="EmiPlanPage" component={EmiPlanPage} options={{ headerShown: false }} />
           <Stack.Screen name="PaymentPage" component={PaymentPage} options={{ headerShown: false }} />
           <Stack.Screen name="ChooseAPlan" component={ChooseAPlan} options={{ headerShown: false }} />
+
+          <Stack.Screen name="TransactionDetails" component={TransactionDetails} options={{ headerShown: false }} />
+
+          <Stack.Screen name="UserDetailsPage" component={UserDetailsPage} options={{ headerShown: false }} />
+          <Stack.Screen name="CameraCapturePage" component={CameraCapturePage} options={{ headerShown: false }} />
+          <Stack.Screen name="BankDetailsPage" component={BankDetailsPage} options={{ headerShown: false }} />
+          <Stack.Screen name="LoanProcessingScreen" component={LoanProcessingScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="AfterProcessingPage" component={AfterProcessingPage} options={{ headerShown: false }} />
 
 
           <Stack.Screen name="ProfilePage" component={ProfilePage} options={{ headerShown: false }} />

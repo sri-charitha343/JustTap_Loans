@@ -7,12 +7,18 @@ import { useSelector } from 'react-redux';
 const ProfilePage = () => {
   const navigation = useNavigation();
   const userData = useSelector((state) => state.userData);
+  console.log('User Data:', userData);
   const userType = useSelector((state) => state.userType);
   const profileImage = useSelector((state) => state.profileImage);
 
   const menuItems = [
-    { id: '1', title: 'Personal Details', screen: 'PersonalDetails' },
-    { id: '2', title: 'Security', screen: 'Security' },
+    { id: '1', title: 'Action Center', screen: 'Security' },
+    { id: '2', title: 'Personal Details', screen: 'PersonalDetails' },
+    { id: '3', title: 'Security', screen: 'Security' },
+    { id: '4', title: 'Pricing', screen: 'Security' },
+    { id: '5', title: 'App Settings', screen: 'Security' },
+    { id: '6', title: 'Help and Support', screen: 'Security' },
+    { id: '7', title: 'UPI Safety Guidelines', screen: 'Security' },
   ];
 
   const renderMenuItem = ({ item }) => (
@@ -43,6 +49,7 @@ const ProfilePage = () => {
       <Text style={styles.name}>
         {userData?.name || 'Name not available'}
       </Text>
+      <Text style={styles.MobileNumber}> +91 {userData?.mobileNumber}</Text>
 
       {/* Stats - Customer */}
       {userType === 'customer' && (

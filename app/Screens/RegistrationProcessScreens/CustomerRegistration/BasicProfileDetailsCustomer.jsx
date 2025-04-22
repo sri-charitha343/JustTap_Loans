@@ -1,30 +1,36 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { StyleSheet, Text, View, TouchableOpacity, Image,ScrollView } from 'react-native'
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { FontAwesome } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
+import { setStdIdVerified } from '../../../store_management/actions/actions'
+import { setAadharVerified } from '../../../store_management/actions/aadharActions'
+import { setPanVerified } from '../../../store_management/actions/panActions'
 
-const BasicProfileDetailsCustomer = () => {
-  const navigation = useNavigation()
-  const [aadharVerified, setAadharVerified] = useState(false)
-  const [panVerified, setPanVerified] = useState(false)
+const BasicProfileDetailsCustomer = ({navigation}) => {
 
-  const customerDetails = useSelector(state => state.customers.data) || {};
+  const dispatch = useDispatch()
 
+  const aadharVerified = useSelector(state => state.aadharVerified)
+  const panVerified = useSelector(state => state.panVerified)
+  const stdIdVerified = useSelector(state => state.stdIdVerified)
+  const customerDetails = useSelector(state => state.customers.data) || {}
+  const categorySelected = useSelector(state => state.loan.selectedCategory)
 
   const handleAadharClick = () => {
     navigation.navigate('AadharUpload')
-    setAadharVerified(true)
   }
 
   const handlePanClick = () => {
     navigation.navigate('PanCard')
-    setPanVerified(true)
+  }
+
+  const handleStdIdClick = () => {
+    navigation.navigate('StudentId')
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {/* Profile Picture */}
       <View style={styles.profileContainer}>
         <FontAwesome name="user-circle" size={100} color="#ccc" />
@@ -46,7 +52,7 @@ const BasicProfileDetailsCustomer = () => {
           onPress={handleAadharClick}
         >
           <Image 
-            source={require('../../../assets/Images/aadhar.png')} 
+            source={require('../../../../assets/Images/aadhar.png')} 
             style={styles.documentIcon}
           />
           <Text style={styles.documentText}>Aadhar Card</Text>
@@ -58,7 +64,7 @@ const BasicProfileDetailsCustomer = () => {
           onPress={handlePanClick}
         >
           <Image 
-            source={require('../../../assets/Images/pancard.png')} 
+            source={require('../../../../assets/Images/pancard.png')} 
             style={styles.documentIcon}
           />
           <Text style={styles.documentText}>PAN Card</Text>
@@ -66,15 +72,36 @@ const BasicProfileDetailsCustomer = () => {
         </TouchableOpacity>
       </View>
 
+      {categorySelected === 'student' &&(
+      <View style={styles.stdIdWrapper}>
+        <Text style={styles.StdIdHeading}>Upload Your Student ID</Text>
+      <TouchableOpacity 
+        style={[styles.stdDocumentBox, stdIdVerified && styles.verifiedBox]}
+        onPress={handleStdIdClick}
+      >
+        <Image 
+          source={require('../../../../assets/Images/StudentId2.jpg')} 
+          style={styles.stdIdIcon}
+        />
+        <Text style={styles.documentText}>Student ID</Text>
+        {stdIdVerified && <FontAwesome name="check-circle" size={24} color="green" />}
+      </TouchableOpacity>
+    </View>
+    
+
+      )}
+
       {/* Next Button */}
       <TouchableOpacity 
-        style={[styles.nextButton, (!aadharVerified || !panVerified) && styles.disabledButton]}
-        disabled={!aadharVerified || !panVerified}
+        style={[styles.nextButton, (!aadharVerified || !panVerified || (categorySelected === 'student' && !stdIdVerified)) && styles.disabledButton]}
+        disabled={!aadharVerified || !panVerified || (categorySelected === 'student' && !stdIdVerified)}
         onPress={() => navigation.navigate('TakeSelfie')}
       >
         <Text style={styles.nextButtonText}>Next</Text>
       </TouchableOpacity>
-    </View>
+
+     
+    </ScrollView>
   )
 }
 
@@ -99,7 +126,8 @@ const styles = StyleSheet.create({
   detailText: {
     fontSize: 16,
     marginVertical: 5,
-    color: '#fff', // White text color
+    color: '#000', 
+    fontWeight: 'bold',
   },
   documentsContainer: {
     flexDirection: 'row',
@@ -142,4 +170,34 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  stdIdIcon:{
+    width:  100,
+    height: 65,
+    marginBottom: 10,
+  },
+  StdIdHeading:{
+    color: '#fff',
+    fontSize: 20,
+    textAlign: 'center',
+    marginBottom: 10,
+    fontWeight: 'bold',
+
+  },
+  stdDocumentBox: {
+    width: '70%',
+    padding: 15,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    marginBottom: 20,
+  },
+  stdIdWrapper: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  
+
+  
 })

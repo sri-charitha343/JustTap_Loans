@@ -24,8 +24,8 @@ export default function TabNavigator() {
             iconName = "search"; // Search icon for Explore
           } else if (route.name === "Scanner") {
             iconName = "scan"; // Scan icon for Scanner
-          } else if (route.name === "Loans") {
-            iconName = "create"; // File edit icon for Loans (create)
+          } else if (route.name === "Draw") {
+            iconName = "cash"; // File edit icon for Loans (create)
           } else if (route.name === "Activity") {
             iconName = "list"; // List icon for Activity
           }
@@ -41,7 +41,7 @@ export default function TabNavigator() {
       {loan.isTaken && (
         <Tab.Screen name="Scanner" component={ScannerPage} options={{ headerShown: false }} />
       )}
-      <Tab.Screen name="Loans" component={LoansPage} options={{ headerShown: false }} />
+      <Tab.Screen name="Draw" component={LoansPage} options={{ headerShown: false }} />
       <Tab.Screen name="Activity" component={ActivityPage} options={{ headerShown: false }} />
     </Tab.Navigator>
   );

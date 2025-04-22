@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setAadharNumber } from '../../../store_management/actions/actions';
+import { setAadharNumber , setAadharVerified} from '../../../store_management/actions/actions';
 import { View, Text, SafeAreaView, TouchableOpacity, StyleSheet, TextInput, Alert, Image, KeyboardAvoidingView, Keyboard, ScrollView } from 'react-native';
 
 const AadharUpload = ({ navigation }) => {
@@ -20,7 +20,9 @@ const AadharUpload = ({ navigation }) => {
   };
 
   const handleGoPress = () => {
-    dispatch(setAadharNumber(aadharNumber)); // Dispatch action to store Aadhar number
+    dispatch(setAadharNumber(aadharNumber)); 
+    dispatch(setAadharVerified(true));
+
 
     const validationError = validateAadharNumber();
     if (validationError) {

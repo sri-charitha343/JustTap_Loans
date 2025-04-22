@@ -26,7 +26,7 @@ const MobileOTPScreen = () => {
         } else if (userType === 'driver') {
           navigation.navigate('EnterDriverId');
         } else if (userType === 'customer') {
-          navigation.navigate('BasicProfileDetailsCustomer');
+          navigation.navigate('CategoriesPage'); // Navigate to CategoriesPage for customers
         } else {
           Alert.alert('Error', 'Invalid user type');
         }

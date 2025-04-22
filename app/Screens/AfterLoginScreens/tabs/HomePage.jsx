@@ -10,6 +10,8 @@ import { useNavigation } from '@react-navigation/native';
 const HomePage = () => {
   const profileImage = useSelector(state => state.profileImage);
   const navigation = useNavigation();
+  const userData = useSelector(state => state.userData);
+  console.log("user data:", userData);
   const userType = useSelector((state) => state.userType);
   const loan = useSelector((state) => state.loan);
   console.log("loan details:", loan);
@@ -93,8 +95,19 @@ const HomePage = () => {
         </View>
       ) : (
         <View style={styles.driverContent}>
-          <Text style={styles.text}>Welcome, Driver</Text>
+          <Text style={styles.welcomeText}>Welcome</Text>
+          <Text style={styles.welcomeText}>{userData.name}!</Text>
+          <Text style={styles.subText}>You are eligible for a loan up to</Text>
+          <Text style={styles.loanAmountText}>
+            <Text style={styles.upToText}>UPTO </Text>
+            <Text style={styles.amountText}>₹{loan.amount}</Text>
+          </Text>
+
+          <TouchableOpacity style={styles.loanButton} onPress={() => navigation.navigate('Loans')}>
+            <Text style={styles.buttonText}>Get Your Loan!</Text>
+          </TouchableOpacity>
         </View>
+
       )}
 
       <View style={styles.bottomcontainer}>
@@ -206,7 +219,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   driverContent: {
-    marginVertical: 20,
+    width: '100%',
     alignItems: 'center',
   },
   disabledBox: {
@@ -321,5 +334,51 @@ const styles = StyleSheet.create({
   },
   emiAmount: {
     color: '#fff',
-  }
+  },
+  driverContent: {
+    backgroundColor: '#f5f9ff',
+    padding: 20,
+    borderRadius: 16,
+    margin: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 6,
+  },
+  welcomeText: {
+    fontSize: 25,
+    fontWeight: '700',
+    color: '#0f4a97',
+    marginBottom: 6,
+    
+  },
+  subText: {
+    fontSize: 16,
+    color: '#555',
+    marginBottom: 4,
+  },
+  amountText: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#2e7d32',
+    marginVertical: 10,
+  },
+  loanButton: {
+    marginTop: 15,
+    backgroundColor: '#0f4a97',
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 25,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  upToText: {
+    fontSize: 25,
+    color: '#000', 
+  },
 });

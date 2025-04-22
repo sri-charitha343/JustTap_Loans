@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
-import CheckBalanceModal from '../../../../components/CheckBalance'
-
+import CheckBalanceModal from '../../../../components/CheckBalance';
 
 const OverView = () => {
     const navigation = useNavigation();
@@ -21,9 +20,11 @@ const OverView = () => {
 
     const filteredTransactions =
         selected === 'All'
-            ? mockTransactions
-            : mockTransactions.filter(transaction =>
-                  transaction.date.startsWith(currentMonth)
+            ? mockTransactions.filter(transaction => transaction.status !== 'Failed')
+            : mockTransactions.filter(
+                  transaction =>
+                      transaction.date.startsWith(currentMonth) &&
+                      transaction.status !== 'Failed'
               );
 
     const sortedTransactions = filteredTransactions.sort(
@@ -41,12 +42,7 @@ const OverView = () => {
     const renderTransaction = ({ item }) => (
         <View style={styles.transactionItem}>
             <View style={styles.transactionLeft}>
-                <Text
-                    style={[
-                        styles.transactionStatus,
-                        item.status === 'Paid' ? styles.paid : styles.failed
-                    ]}
-                >
+                <Text style={[styles.transactionStatus, styles.paid]}>
                     {item.status}
                 </Text>
                 <Text style={styles.transactionDate}>{item.date}</Text>
@@ -57,14 +53,14 @@ const OverView = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            {/* Top Bar with Back and Check Balance */}
+            
             <View style={styles.topBar}>
                 <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
                     <Icon name="arrow-back" size={28} color="white" />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.checkBalanceBox}>
-                    <Text style={styles.checkBalanceText}>Check Balance</Text>
+                    <Text style={styles.checkBalanceText}>+Add Bank</Text>
                 </TouchableOpacity>
             </View>
 
@@ -287,9 +283,6 @@ const styles = StyleSheet.create({
     },
     paid: {
         color: 'green'
-    },
-    failed: {
-        color: 'red'
     },
     transactionDate: {
         fontSize: 12,

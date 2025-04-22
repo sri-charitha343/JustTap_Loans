@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { storePanNumber } from '../../../store_management/actions/actions';
+import { storePanNumber, setPanVerified } from '../../../store_management/actions/actions';
 
 
 import { View, Text, SafeAreaView, TouchableOpacity, StyleSheet, TextInput, Alert, Image, Keyboard } from 'react-native';
@@ -31,6 +31,7 @@ const dispatch = useDispatch();
 const handleGoPress = () => {
     if (isPanValid) {
         dispatch(storePanNumber(panNumber));
+        dispatch(setPanVerified(true));
     }
 
 

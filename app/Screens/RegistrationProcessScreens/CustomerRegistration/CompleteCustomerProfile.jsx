@@ -137,7 +137,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.2)",
   },
   detail: {
-    color: "white",
+    color: "black",
+    fontWeight:'bold',
     fontSize: 16,
     marginBottom: 10
   },
