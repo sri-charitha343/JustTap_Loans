@@ -8,7 +8,8 @@ import {SET_DRIVERS,
   STORE_AADHAR_FRONT_IMAGE,
   STORE_AADHAR_BACK_IMAGE,
   STORE_PAN_FRONT_IMAGE,
-  STORE_PAN_BACK_IMAGE
+  STORE_PAN_BACK_IMAGE,
+  STORE_BANK_DETAILS
 } from "../actions/actions";
 
 const SET_AADHAR_VERIFIED = "SET_AADHAR_VERIFIED";
@@ -38,6 +39,13 @@ const initialState = {
   userData: null,
   aadharVerified: false,
   panVerified: false,
+
+  // New bank details state
+  bankDetails: {
+    bankName: '',
+    accountNumber: '',
+    ifscCode: ''
+  },
   
   userType: null,
   loan: {
@@ -142,6 +150,16 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         userData: action.payload,
+      };
+
+    case STORE_BANK_DETAILS:
+      return {
+        ...state,
+        bankDetails: {
+          bankName: action.payload.bankName,
+          accountNumber: action.payload.accountNumber,
+          ifscCode: action.payload.ifscCode
+        }
       };
 
     case 'SET_LOAN_TAKEN':

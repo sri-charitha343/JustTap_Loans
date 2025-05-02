@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons,MaterialIcons } from "@expo/vector-icons";
 import HomeScreen from "./tabs/HomePage";
 import ExploreScreen from "./tabs/ExploreScreen";
 import LoansPage from "./tabs/LoansPage";
@@ -17,19 +17,18 @@ export default function TabNavigator() {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
-          let iconName;
           if (route.name === "Home") {
-            iconName = "home"; // Home icon
+            return <Ionicons name="home" size={size} color={color} />;
           } else if (route.name === "Explore") {
-            iconName = "search"; // Search icon for Explore
+            return <Ionicons name="search" size={size} color={color} />;
           } else if (route.name === "Scanner") {
-            iconName = "scan"; // Scan icon for Scanner
+            return <Ionicons name="scan" size={size} color={color} />;
           } else if (route.name === "Draw") {
-            iconName = "cash"; // File edit icon for Loans (create)
+            return <MaterialIcons name="currency-rupee" size={size} color={color} />;
           } else if (route.name === "Activity") {
-            iconName = "list"; // List icon for Activity
+            return <Ionicons name="list" size={size} color={color} />;
           }
-          return <Ionicons name={iconName} size={25} color={color} />;
+        
         },
         tabBarActiveTintColor: "skyblue",  // Active tab color
         tabBarInactiveTintColor: "white", // Inactive tab color

@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { FontAwesome6 } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import DiffLoans from '../../Customer/DiffLoans';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -35,13 +35,17 @@ const HomePage = () => {
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('HelpPage')}>
-          <MaterialIcons name="support-agent" size={45} color="#0F4A97" right={0} />
+          <Image
+            source={require('../../../../assets/Images/Support.png')}
+            style={{ width: 45, height: 47, borderRadius: 10 }}
+            resizeMode="contain"
+          />
         </TouchableOpacity>
       </View>
 
       {loan?.isTaken ? (
         <View style={styles.loanCard}>
-          <Text style={styles.loanActiveText}>🎯 Active Loan Summary</Text>
+          <Text style={styles.loanActiveText}>Active Loan Summary</Text>
           <>
             {loan?.withdrawnAmount > 0 ? (
               <Text style={styles.loanActiveText}>
@@ -187,6 +191,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     alignItems: 'center',
     borderRadius: 10,
+    marginBottom: 100
   },
   overview: {
     backgroundColor: '#0f4a97',
@@ -240,7 +245,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   loanActiveText: {
-    fontSize: 24,
+    fontSize: 27,
     fontWeight: 'bold',
     color: '#0f4a97',
     textAlign: 'center',
@@ -352,7 +357,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#0f4a97',
     marginBottom: 6,
-    
+
   },
   subText: {
     fontSize: 16,
@@ -379,6 +384,6 @@ const styles = StyleSheet.create({
   },
   upToText: {
     fontSize: 25,
-    color: '#000', 
+    color: '#000',
   },
 });

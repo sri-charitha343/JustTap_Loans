@@ -55,6 +55,15 @@ import CategoriesPage from './app/Screens/RegistrationProcessScreens/CustomerReg
 import TransactionDetails from './app/Screens/AfterLoginScreens/ActivityPages/TransactionDetails';
 import StudentId from './app/Screens/RegistrationProcessScreens/CustomerRegistration/StudentId';
 import StudentIdUpload from './app/Screens/RegistrationProcessScreens/CustomerRegistration/StudentIdUpload';
+import LoanDocumentsPage from './app/Screens/AfterLoginScreens/HomePageScreens/TakeProcessPages/LoanDocumentsPage';
+import TransferAmountPage from './app/Screens/AfterLoginScreens/HomePageScreens/TakeProcessPages/TransferAmountPage';
+import AutoPaySetUp from './app/Screens/AfterLoginScreens/LoansPageSteps/AutoPaySetUp';
+import RepaymentSchedule from './app/Screens/AfterLoginScreens/LoansPageSteps/RepaymentSchedule';
+import ActionCenter from './app/Screens/AfterLoginScreens/ProfileScreens/ActionCenter';
+import Pricing from './app/Screens/AfterLoginScreens/ProfileScreens/Pricing';
+import HelpAndSupport from './app/Screens/AfterLoginScreens/ProfileScreens/Help&Support';
+import UPISafetyGuidelines from './app/Screens/AfterLoginScreens/ProfileScreens/UPISafetyGuidelines';
+import UPISetting from './app/Screens/AfterLoginScreens/ProfileScreens/UPISetting';
 
 const Stack = createNativeStackNavigator();
 
@@ -106,6 +115,8 @@ export default function App() {
           <Stack.Screen name="TakeOrPayPage" component={TakeOrPayPage} options={{ headerShown: false }} />
           <Stack.Screen name="TakenAmountSummary" component={TakenAmountSummary} options={{ headerShown: false }} />
           <Stack.Screen name="EmiPlanPage" component={EmiPlanPage} options={{ headerShown: false }} />
+          <Stack.Screen name="TransferAmountPage" component={TransferAmountPage} options={{ headerShown: false }} />
+          <Stack.Screen name="LoanDocumentsPage" component={LoanDocumentsPage} options={{ headerShown: false }} />
           <Stack.Screen name="PaymentPage" component={PaymentPage} options={{ headerShown: false }} />
           <Stack.Screen name="ChooseAPlan" component={ChooseAPlan} options={{ headerShown: false }} />
 
@@ -116,11 +127,22 @@ export default function App() {
           <Stack.Screen name="BankDetailsPage" component={BankDetailsPage} options={{ headerShown: false }} />
           <Stack.Screen name="LoanProcessingScreen" component={LoanProcessingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="AfterProcessingPage" component={AfterProcessingPage} options={{ headerShown: false }} />
+          <Stack.Screen name="AutoPaySetUp" component={AutoPaySetUp} options={{ headerShown: false }} />
+          <Stack.Screen name="RepaymentSchedule" component={RepaymentSchedule} options={{ headerShown: false }} />
 
 
           <Stack.Screen name="ProfilePage" component={ProfilePage} options={{ headerShown: false }} />
           <Stack.Screen name="PersonalDetails" component={PersonalDetails} options={{ headerShown: false }} />
           <Stack.Screen name="Security" component={Security} options={{ headerShown: false }} />
+          <Stack.Screen name="ActionCenter" component={ActionCenter} options={{ headerShown: false }} />
+          <Stack.Screen name="Pricing" component={Pricing} options={{ headerShown: false }} />
+          <Stack.Screen name="UPISetting" component={UPISetting} options={{ headerShown: false }} />
+          <Stack.Screen name="HelpAndSupport" component={HelpAndSupport} options={{ headerShown: false }} />
+          <Stack.Screen name="UPISafetyGuidelines" component={UPISafetyGuidelines} options={{ headerShown: false }} />
+
+
+          
+
         </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

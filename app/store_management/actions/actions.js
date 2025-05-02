@@ -127,3 +127,12 @@ export const updateActiveAmount = (withdrawalData) => ({
     emiThisMonth: withdrawalData.emiThisMonth
   }
 });
+
+// New action types for bank details
+export const STORE_BANK_DETAILS = "STORE_BANK_DETAILS";
+
+// Action creator for storing bank details
+export const storeBankDetails = (bankDetails) => ({
+  type: STORE_BANK_DETAILS,
+  payload: bankDetails,
+});

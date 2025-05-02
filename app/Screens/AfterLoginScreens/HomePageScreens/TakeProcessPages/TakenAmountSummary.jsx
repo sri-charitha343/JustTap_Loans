@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'; 
 import {
   View,
   Text,
@@ -9,12 +9,14 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { useDispatch } from 'react-redux';
 import { updateActiveAmount } from '../../../../store_management/actions/actions';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const TakenAmountSummary = ({ navigation, route }) => {
   const { withdrawnAmount } = route.params;
   const [selectedPlan, setSelectedPlan] = useState(route.params?.selectedPlan || null);
   const [emiAmount, setEmiAmount] = useState(route.params?.emiAmount || null);
   const [includeLoanProtection, setIncludeLoanProtection] = useState(true);
+  const [showLoanInfoModal, setShowLoanInfoModal] = useState(false);
 
   const calculateEMI = (months) => {
     const interestRates = { 3: 0.03, 6: 0.04, 12: 0.05 };
@@ -52,7 +54,7 @@ const TakenAmountSummary = ({ navigation, route }) => {
   const dispatch = useDispatch();
 
   const handleDocumentsPress = () => {
-    navigation.navigate('LoanDocuments');
+    navigation.navigate('LoanDocumentsPage');
   };
 
   const toggleLoanProtection = () => {
@@ -64,10 +66,10 @@ const TakenAmountSummary = ({ navigation, route }) => {
       amount: withdrawnAmount,
       totalAmount: totalAmount || withdrawnAmount + platformFee + loanProtection,
       withdrawnAmount: withdrawnAmount,
-      emiThisMonth: emiAmount || calculateEMI(12), // Use calculated 12-month EMI if none selected
+      emiThisMonth: emiAmount || calculateEMI(12),
       repaymentDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
     }));
-    navigation.navigate('PaymentPage');
+    navigation.navigate('TransferAmountPage');
   };
 
   return (
@@ -88,8 +90,11 @@ const TakenAmountSummary = ({ navigation, route }) => {
 
           <View style={styles.feeRow}>
             <View style={styles.feeLabelContainer}>
-              <Text style={styles.feeLabel}>Loan Protection</Text>
-              <Text style={styles.optionalText}>(Optional)</Text>
+            <Text style={styles.feeLabel} onPress={() => setShowLoanInfoModal(true)}>Loan Protection</Text>
+              <TouchableOpacity onPress={() => setShowLoanInfoModal(true)} style={{ marginLeft: 5 }}>
+             
+                <MaterialIcons name="info-outline" size={18} color="#0f4a97" />
+              </TouchableOpacity>
             </View>
             <View style={styles.feeValueContainer}>
               <Text style={styles.feeValue}>₹{loanProtection}</Text>
@@ -135,6 +140,24 @@ const TakenAmountSummary = ({ navigation, route }) => {
           <Text style={styles.continueButtonText}>Continue</Text>
         </TouchableOpacity>
       </ScrollView>
+
+      {showLoanInfoModal && (
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalBox}>
+            <Text style={styles.modalTitle}>Loan Protection Info</Text>
+            <Text style={styles.modalText}>
+              Safeguard your loan with these valuable features:
+              {"\n\n"}• Dues waived for up to 3 months in case you're hospitalized
+              {"\n\n"}• Get up to 100% loan coverage in case of permanent disability or serious accidental injuries
+              {"\n\n"}• Coverage for accidental death included
+              {"\n\n"}• Hassle-free claim process with payments assured within 7 days
+            </Text>
+            <TouchableOpacity onPress={() => setShowLoanInfoModal(false)} style={styles.modalButton}>
+              <Text style={styles.modalButtonText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </LinearGradient>
   );
 };
@@ -173,7 +196,6 @@ const styles = StyleSheet.create({
   feeValueContainer: { flexDirection: 'row', alignItems: 'center' },
   feeLabel: { fontSize: 16, color: '#333' },
   feeValue: { fontSize: 16, fontWeight: '500', color: '#333' },
-  optionalText: { fontSize: 12, color: '#666', marginLeft: 5 },
   removeText: { fontSize: 12, color: '#0f4a97', marginLeft: 10, textDecorationLine: 'underline' },
   totalRow: {
     flexDirection: 'row',
@@ -212,6 +234,49 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   continueButtonText: { fontSize: 18, color: '#fff', fontWeight: 'bold' },
+  modalOverlay: {
+    position: 'absolute',
+    top: 0, left: 0, right: 0, bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
+  },
+  modalBox: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 12,
+    width: '85%',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#0f4a97',
+  },
+  modalText: {
+    fontSize: 15,
+    color: '#444',
+    marginBottom: 20,
+    textAlign: 'left',
+  },
+  modalButton: {
+    backgroundColor: '#0f4a97',
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+    borderRadius: 8,
+  },
+  modalButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
 });
 
 export default TakenAmountSummary;

@@ -80,7 +80,7 @@ const StudentId = ({ navigation }) => {
 
          <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.button} onPress={handleTakePanImage}>
-                  <Text style={styles.buttonText}>Take PAN Image</Text>
+                  <Text style={styles.buttonText}>Take Student Id Image</Text>
                 </TouchableOpacity>
 
                 </View>

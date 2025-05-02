@@ -5,21 +5,21 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ScrollView,
 } from 'react-native';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { BlurView } from 'expo-blur';
 
 const LoansPage = ({ route }) => {
-  const { showInfo } = route.params || { showInfo: false }; // Retrieve showInfo from navigation params
+  const { showInfo } = route.params || { showInfo: false };
   const navigation = useNavigation();
-const categorySelected = useSelector((state) => state.selectedCategory)
- console.log('Category Selected:', categorySelected);
+  const categorySelected = useSelector((state) => state.selectedCategory);
   const loanAmountRef = useRef(500);
   const userType = useSelector((state) => state.userType);
-  console.log('User Type:', userType);
   const loan = useSelector((state) => state.loan);
-  console.log('Loan:', loan);
   const dispatch = useDispatch();
 
   const formattedDate = moment().add(30, 'days').format('DD/MM/YYYY');
@@ -37,8 +37,6 @@ const categorySelected = useSelector((state) => state.selectedCategory)
     navigation.navigate('UserDetailsPage');
   };
 
- 
-
   const borrowingsHistory = loan?.history || [
     { amount: 5000, date: '17/03/2025' },
     { amount: 3000, date: '25/02/2025' },
@@ -47,42 +45,42 @@ const categorySelected = useSelector((state) => state.selectedCategory)
   if (loan?.isTaken) {
     return (
       <SafeAreaView style={styles.container}>
-        <View style={styles.loanCard}>
-          <Text style={styles.loanActiveText}>🎯 Active Loan Summary</Text>
-          <>
+        <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+          <BlurView intensity={60} tint="light" style={styles.loanCard}>
+            <Text style={styles.loanActiveText}>Active Loan Summary</Text>
             {loan?.withdrawnAmount > 0 ? (
               <Text style={styles.loanActiveText}>
                 ₹{loan.remainingAvailableAmount?.toLocaleString()}
               </Text>
             ) : (
-              <Text style={styles.loanAmount}>
-                ₹{loan.amount}
-              </Text>
+              <Text style={styles.loanAmount}>₹{loan.amount}</Text>
             )}
-          </>
 
-          <View style={styles.loanInfoContainer}>
-            <View style={styles.loanInfoBox}>
-              <Text style={styles.loanInfoLabel}>Due Date</Text>
-              <Text style={styles.loanInfoValue}>{loan.repaymentDate}</Text>
+            <View style={styles.loanInfoContainer}>
+              <View style={styles.loanInfoBox}>
+                <Text style={styles.loanInfoLabel}>Due Date</Text>
+                <Text style={styles.loanInfoValue}>{loan.repaymentDate}</Text>
+              </View>
+              <View style={styles.loanInfoBox}>
+                <Text style={styles.loanInfoLabel}>Term</Text>
+                <Text style={styles.loanInfoValue}>{loan.term} days</Text>
+              </View>
             </View>
-            <View style={styles.loanInfoBox}>
-              <Text style={styles.loanInfoLabel}>Term</Text>
-              <Text style={styles.loanInfoValue}>{loan.term} days</Text>
-            </View>
-          </View>
 
-          <TouchableOpacity
-            style={styles.takeAmountBtn}
-            onPress={() => navigation.navigate('TakeOrPayPage')}
-          >
-            <Text style={styles.takeAmountText}>+ Take More Amount</Text>
-          </TouchableOpacity>
-
+            <TouchableOpacity
+              style={styles.takeAmountBtn}
+              onPress={() => navigation.navigate('TakeOrPayPage')}
+            >
+              <Text style={styles.takeAmountText}>+ Take More Amount</Text>
+            </TouchableOpacity>
+          </BlurView>
           {loan?.withdrawnAmount > 0 && (
-            <View>
+            <View style={styles.repaymentContainer}>
               <Text style={styles.repaymentTitle}>💳 Repayment Details</Text>
-              <View style={styles.repaymentBox}>
+              <LinearGradient
+                colors={['#0f4a97', '#0c2f66']}
+                style={styles.repaymentBox}
+              >
                 <View style={styles.repaymentLeft}>
                   <Text style={styles.repaymentAmount}>
                     Amount: ₹{loan.withdrawnAmount?.toLocaleString()}
@@ -98,57 +96,73 @@ const categorySelected = useSelector((state) => state.selectedCategory)
                 >
                   <Text style={styles.payNowText}>Pay Now</Text>
                 </TouchableOpacity>
-              </View>
+              </LinearGradient>
             </View>
           )}
-          
-        </View>
-
-        {loan?.withdrawnAmount > 0 && (
-        <View style={{ marginTop: 30, width: '100%' }}>
-          <Text style={styles.activeBorrowingTitle}>📜Your Loan Trail</Text>
-          {borrowingsHistory.length === 0 ? (
-            <Text style={styles.noHistoryText}>No borrowings yet.</Text>
-          ) : (
-            borrowingsHistory.map((item, index) => (
-              <View key={index} style={styles.historyItem}>
-                <Text style={styles.historyAmount}>₹{item.amount.toLocaleString()}</Text>
-                <Text style={styles.historyDate}>Date: {item.date}</Text>
-              </View>
-            ))
+          {loan?.withdrawnAmount > 0 && (
+            <View style={{ marginTop: 30, width: '100%' }}>
+              <Text style={styles.activeBorrowingTitle}>📜 Your Loan Trail</Text>
+              {borrowingsHistory.length === 0 ? (
+                <Text style={styles.noHistoryText}>No borrowings yet.</Text>
+              ) : (
+                borrowingsHistory.map((item, index) => (
+                  <View key={index} style={styles.historyItem}>
+                    <Text style={styles.historyAmount}>₹{item.amount.toLocaleString()}</Text>
+                    <Text style={styles.historyDate}>Date: {item.date}</Text>
+                  </View>
+                ))
+              )}
+            </View>
           )}
-        </View>
-        )}
+          <View style={styles.featureOptionsContainer}>
+            <TouchableOpacity style={styles.featureCard} onPress = {() => navigation.navigate('AutoPaySetUp')}>
+              <Text style={styles.featureEmoji}>🔁</Text>
+              <Text style={styles.featureTitle}>PayFlow Activation</Text>
+              <Text style={styles.featureDescription}>
+                Automate your monthly payments and stay stress-free!
+              </Text>
+            </TouchableOpacity>
 
-        
+            <TouchableOpacity style={styles.featureCard} onPress = {() => navigation.navigate('RepaymentSchedule')}>
+              <Text style={styles.featureEmoji}>⏳</Text>
+              <Text style={styles.featureTitle}>Repay Rhythm</Text>
+              <Text style={styles.featureDescription}>
+                You Can Check Your Repayment Schedule and Plan Your Payments
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+
+        </ScrollView>
       </SafeAreaView>
     );
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Get Your Loan</Text>
+      <ScrollView contentContainerStyle={{ alignItems: 'center', padding: 20 }}>
+        <Text style={styles.title}>Get Your Loan</Text>
 
-
-      {loan.selectedCategory && (
-        <>
-          <Text style={styles.infoHeading}>You're eligible for:</Text>
-          <Text style={styles.eligibleAmount}>
-            {categorySelected === 'self-employed'
-              ? '₹10,000 - ₹20,000'
-              : `₹${loan.amount.toLocaleString()}`}
-          </Text>
-          <Text style={styles.repaymentText}>
-            Repayment date will be every month on the 5th.
-          </Text>
-          <Text style={styles.noteText}>
-            *NOTE: According to your CIBIL score, you will get an amount up to your eligible limit.
-          </Text>
-          <TouchableOpacity style={styles.button} onPress={handleGetMoney}>
-            <Text style={styles.buttonText}>Get Money</Text>
-          </TouchableOpacity>
-        </>
-      )}
+        {loan.selectedCategory && (
+          <>
+            <Text style={styles.infoHeading}>You're eligible for:</Text>
+            <Text style={styles.eligibleAmount}>
+              {categorySelected === 'self-employed'
+                ? '₹10,000 - ₹20,000'
+                : `₹${loan.amount.toLocaleString()}`}
+            </Text>
+            <Text style={styles.repaymentText}>
+              Repayment date will be every month on the 5th.
+            </Text>
+            <Text style={styles.noteText}>
+              *NOTE: According to your CIBIL score, you will get an amount up to your eligible limit.
+            </Text>
+            <TouchableOpacity style={styles.button} onPress={handleGetMoney}>
+              <Text style={styles.buttonText}>Get Money</Text>
+            </TouchableOpacity>
+          </>
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -158,71 +172,36 @@ export default LoansPage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#eaf4ff',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
-    backgroundColor: '#f8f9fa',
   },
   title: {
+    marginTop: '50%',
     fontSize: 36,
     fontWeight: 'bold',
     color: '#0f4a97',
     marginBottom: 20,
     textAlign: 'center',
   },
-  label: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 10,
-  },
-  categoryContainer: {
-    width: '100%',
-    gap: 12,
-  },
-  categoryBox: {
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 10,
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    marginBottom: 8,
-  },
-  selectedCategory: {
-    borderColor: '#0f4a97',
-    backgroundColor: '#e3ecf8',
-  },
-  categoryText: {
-    textAlign: 'center',
-    fontSize: 16,
-    textTransform: 'capitalize',
-    color: '#333',
-  },
-  noteText: {
-    fontSize: 14,
-    color: '#888',
-    marginTop: 10,
-    textAlign: 'center',
-  },
-  okButton: {
-    backgroundColor: '#0f4a97',
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    borderRadius: 8,
-    marginTop: 15,
-  },
   infoHeading: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#0f4a97',
     marginBottom: 10,
+    textAlign: 'center',
   },
   eligibleAmount: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#ff4500',
     marginBottom: 15,
+    textAlign: 'center',
+  },
+  repaymentContainer: {
+    width: '90%',
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
   repaymentText: {
     fontSize: 16,
@@ -230,12 +209,19 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center',
   },
+  noteText: {
+    fontSize: 14,
+    color: '#888',
+    marginTop: 10,
+    textAlign: 'center',
+  },
   button: {
     marginTop: 20,
     backgroundColor: '#ff4500',
     paddingVertical: 12,
     paddingHorizontal: 24,
-    borderRadius: 10,
+    borderRadius: 12,
+    alignSelf: 'center',
   },
   buttonText: {
     fontSize: 18,
@@ -243,15 +229,11 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   loanCard: {
-    backgroundColor: '#f4f8ff',
-    padding: 20,
+    backgroundColor: 'rgba(255,255,255,0.8)',
+    marginTop: 50,
+    marginHorizontal: 15,
     borderRadius: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 5 },
-    elevation: 6,
-    marginTop: 10,
+    padding: 20,
   },
   loanActiveText: {
     fontSize: 24,
@@ -268,9 +250,8 @@ const styles = StyleSheet.create({
   },
   loanInfoContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     marginTop: 20,
-    paddingHorizontal: 10,
   },
   loanInfoBox: {
     alignItems: 'center',
@@ -292,11 +273,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 30,
     alignSelf: 'center',
-    shadowColor: '#0f4a97',
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 5,
   },
   takeAmountText: {
     color: '#fff',
@@ -305,25 +281,20 @@ const styles = StyleSheet.create({
   },
   repaymentBox: {
     marginTop: 5,
-    backgroundColor: '#0f4a97',
     borderRadius: 15,
     padding: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 4,
   },
   repaymentLeft: {
     flex: 1,
   },
   repaymentTitle: {
-    fontSize: 16,
+    fontSize: 20,
     color: '#0f4a97',
     fontWeight: 'bold',
-    marginTop: 30,
+    marginTop: 20,
   },
   repaymentAmount: {
     fontSize: 15,
@@ -336,7 +307,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   payNowButton: {
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 25,
@@ -348,6 +319,7 @@ const styles = StyleSheet.create({
   },
   emiAmount: {
     color: '#fff',
+    fontSize: 14,
   },
   activeBorrowingTitle: {
     fontSize: 20,
@@ -362,15 +334,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   historyItem: {
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffffcc',
     padding: 12,
     marginVertical: 6,
     borderRadius: 12,
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 3,
     alignItems: 'center',
+    marginHorizontal: 30,
   },
   historyAmount: {
     fontSize: 18,
@@ -381,4 +350,35 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#555',
   },
+  featureOptionsContainer: {
+    marginTop: 30,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingHorizontal: 20,
+  },
+  featureCard: {
+    backgroundColor: '#ffffffdd',
+    borderRadius: 20,
+    padding: 15,
+    width: '45%',
+    alignItems: 'center',
+  
+  },
+  featureEmoji: {
+    fontSize: 30,
+    marginBottom: 8,
+  },
+  featureTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#0f4a97',
+    textAlign: 'center',
+  },
+  featureDescription: {
+    fontSize: 13,
+    textAlign: 'center',
+    color: '#555',
+    marginTop: 5,
+  },
+  
 });

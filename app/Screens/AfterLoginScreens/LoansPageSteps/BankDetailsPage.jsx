@@ -4,6 +4,8 @@ import {
   ScrollView, KeyboardAvoidingView, Platform
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
+import { storeBankDetails } from '../../../store_management/actions/actions';
 
 const BankDetailsPage = ({navigation}) => {
   const [bankName, setBankName] = useState('');
@@ -12,6 +14,8 @@ const BankDetailsPage = ({navigation}) => {
   const [isChecked, setIsChecked] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const allFilled = bankName && accountNumber && ifscCode;
     setIsFormValid(allFilled && isChecked);
@@ -19,7 +23,8 @@ const BankDetailsPage = ({navigation}) => {
 
   const handleSave = () => {
     console.log({ bankName, accountNumber, ifscCode });
-     navigation.navigate('LoanProcessingScreen');
+    dispatch(storeBankDetails({ bankName, accountNumber, ifscCode }));
+    navigation.navigate('LoanProcessingScreen');
   };
 
   return (
@@ -157,3 +162,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+

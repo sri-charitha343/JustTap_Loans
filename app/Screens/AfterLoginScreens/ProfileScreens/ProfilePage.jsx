@@ -12,13 +12,13 @@ const ProfilePage = () => {
   const profileImage = useSelector((state) => state.profileImage);
 
   const menuItems = [
-    { id: '1', title: 'Action Center', screen: 'Security' },
-    { id: '2', title: 'Personal Details', screen: 'PersonalDetails' },
-    { id: '3', title: 'Security', screen: 'Security' },
-    { id: '4', title: 'Pricing', screen: 'Security' },
-    { id: '5', title: 'App Settings', screen: 'Security' },
-    { id: '6', title: 'Help and Support', screen: 'Security' },
-    { id: '7', title: 'UPI Safety Guidelines', screen: 'Security' },
+    { id: '1', title: 'Action Center', screen: 'ActionCenter' },
+    {id: '2', title: 'UPISetting', screen: 'UPISetting' },
+    { id: '3', title: 'Personal Details', screen: 'PersonalDetails' },
+    { id: '4', title: 'Security', screen: 'Security' },
+    { id: '5', title: 'Pricing', screen: 'Pricing' },
+    { id: '6', title: 'Help and Support', screen: 'HelpAndSupport' },
+    { id: '7', title: 'UPI Safety Guidelines', screen: 'UPISafetyGuidelines' },
   ];
 
   const renderMenuItem = ({ item }) => (
@@ -158,7 +158,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginVertical: 15,
   },
   statsContainer: {
     flexDirection: 'row',
@@ -205,7 +204,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderWidth: 2,
     borderColor: 'red',
-    padding: 15,
+    padding: 7,
     borderRadius: 8,
     alignItems: 'center',
     marginTop: 20,
@@ -217,7 +216,7 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     backgroundColor: '#D32F2F',
-    padding: 15,
+    padding: 7,
     borderRadius: 8,
     alignItems: 'center',
     marginTop: 10,
@@ -227,4 +226,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  MobileNumber:{
+    fontSize: 17,
+    color: 'grey',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 15
+  }
 });
