@@ -111,10 +111,8 @@ const UserDetailsPage = () => {
                 </TouchableOpacity>
             )}
 
-            {/* Terms & Conditions */}
             <CustomCheckBox isChecked={agree} onToggle={() => setAgree(!agree)} />
 
-            {/* Continue Button */}
             <TouchableOpacity
                 style={[styles.continueBtn, { backgroundColor: isFormValid ? '#007B55' : '#aaa' }]}
                 disabled={!isFormValid}

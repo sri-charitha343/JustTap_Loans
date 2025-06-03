@@ -58,19 +58,21 @@ const HomePage = () => {
             )}
           </>
 
+          {userType === 'customer' || userType === 'new' ? (
+            <>
+              <View style={styles.loanInfoContainer}>
+                <View style={styles.loanInfoBox}>
+                  <Text style={styles.loanInfoLabel}>Due Date</Text>
+                  <Text style={styles.loanInfoValue}>{loan.repaymentDate}</Text>
+                </View>
+                <View style={styles.loanInfoBox}>
+                  <Text style={styles.loanInfoLabel}>Term</Text>
+                  <Text style={styles.loanInfoValue}>{loan.term} days</Text>
+                </View>
+              </View>
+            </>
+          ) : null}
 
-
-          <View style={styles.loanInfoContainer}>
-            <View style={styles.loanInfoBox}>
-              <Text style={styles.loanInfoLabel}>Due Date</Text>
-              <Text style={styles.loanInfoValue}>{loan.repaymentDate}</Text>
-            </View>
-            <View style={styles.loanInfoBox}>
-              <Text style={styles.loanInfoLabel}>Term</Text>
-              <Text style={styles.loanInfoValue}>{loan.term} days</Text>
-            </View>
-
-          </View>
 
           <TouchableOpacity style={styles.takeAmountBtn} onPress={() => navigation.navigate('TakeOrPayPage')}>
             <Text style={styles.takeAmountText}>+ Take More Amount</Text>
@@ -93,7 +95,7 @@ const HomePage = () => {
             </View>
           )}
         </View>
-      ) : userType === 'customer' ? (
+      ) : userType === 'customer' || userType ==='new' ? (
         <View>
           <DiffLoans />
         </View>
@@ -107,7 +109,7 @@ const HomePage = () => {
             <Text style={styles.amountText}>₹{loan.amount}</Text>
           </Text>
 
-          <TouchableOpacity style={styles.loanButton} onPress={() => navigation.navigate('Loans')}>
+          <TouchableOpacity style={styles.loanButton} onPress={() => navigation.navigate('Draw')}>
             <Text style={styles.buttonText}>Get Your Loan!</Text>
           </TouchableOpacity>
         </View>
@@ -137,7 +139,20 @@ const HomePage = () => {
             </TouchableOpacity>
             <Text style={[styles.overviewText, !loan?.isTaken && styles.disabledText]}>Cards</Text>
           </View>
+
+          <View style={styles.overviewItem}>
+            <TouchableOpacity
+              style={[styles.overview, !loan?.isTaken && styles.disabledBox]}
+              onPress={() => loan?.isTaken && navigation.navigate('SavingsAccount')}
+              disabled={!loan?.isTaken}
+            >
+              <Icon name="bank" size={40} color={loan?.isTaken ? "white" : "#aaa"} />
+            </TouchableOpacity>
+            <Text style={[styles.overviewText, !loan?.isTaken && styles.disabledText]}>Bank</Text>
+          </View>
         </View>
+
+
 
         <TouchableOpacity style={styles.friends} onPress={() => navigation.navigate('InviteFriends')}>
           <Text style={styles.friendsText}>Invite Friends get bonus</Text>
@@ -196,7 +211,7 @@ const styles = StyleSheet.create({
   overview: {
     backgroundColor: '#0f4a97',
     height: 100,
-    width: 140,
+    width: '100%',
     borderRadius: 10,
     padding: 20,
     justifyContent: 'center',

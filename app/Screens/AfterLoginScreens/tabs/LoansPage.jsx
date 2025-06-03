@@ -38,8 +38,8 @@ const LoansPage = ({ route }) => {
   };
 
   const borrowingsHistory = loan?.history || [
-    { amount: 5000, date: '17/03/2025' },
-    { amount: 3000, date: '25/02/2025' },
+    { amount: 3000, date: '15/05/2025' },
+    { amount: 2000, date: '10/06/2025' },
   ];
 
   if (loan?.isTaken) {
@@ -56,16 +56,23 @@ const LoansPage = ({ route }) => {
               <Text style={styles.loanAmount}>₹{loan.amount}</Text>
             )}
 
-            <View style={styles.loanInfoContainer}>
-              <View style={styles.loanInfoBox}>
-                <Text style={styles.loanInfoLabel}>Due Date</Text>
-                <Text style={styles.loanInfoValue}>{loan.repaymentDate}</Text>
-              </View>
-              <View style={styles.loanInfoBox}>
-                <Text style={styles.loanInfoLabel}>Term</Text>
-                <Text style={styles.loanInfoValue}>{loan.term} days</Text>
-              </View>
-            </View>
+             {userType === 'customer' || userType === 'new' ? (
+                          <>
+            
+                      <View style={styles.loanInfoContainer}>
+                        
+                            <View style={styles.loanInfoBox}>
+                              <Text style={styles.loanInfoLabel}>Due Date</Text>
+                              <Text style={styles.loanInfoValue}>{loan.repaymentDate}</Text>
+                            </View>
+                            <View style={styles.loanInfoBox}>
+                              <Text style={styles.loanInfoLabel}>Term</Text>
+                              <Text style={styles.loanInfoValue}>{loan.term} days</Text>
+                            </View>
+            
+                      </View>
+                       </>
+                        ) : null}
 
             <TouchableOpacity
               style={styles.takeAmountBtn}
@@ -107,11 +114,16 @@ const LoansPage = ({ route }) => {
               ) : (
                 borrowingsHistory.map((item, index) => (
                   <View key={index} style={styles.historyItem}>
+                    <Text style={{fontSize:12,color:'grey'}}>•Withdrawn</Text>
                     <Text style={styles.historyAmount}>₹{item.amount.toLocaleString()}</Text>
                     <Text style={styles.historyDate}>Date: {item.date}</Text>
+                    
                   </View>
                 ))
               )}
+              <TouchableOpacity style={styles.viewMoreButton} onPress={() => navigation.navigate('BorrowingsHistory')}>
+                    <Text style={styles.viewMoreButtonText}>View More</Text>
+                  </TouchableOpacity>
             </View>
           )}
           <View style={styles.featureOptionsContainer}>
@@ -151,12 +163,22 @@ const LoansPage = ({ route }) => {
                 ? '₹10,000 - ₹20,000'
                 : `₹${loan.amount.toLocaleString()}`}
             </Text>
+            {userType === 'driver' ?(
+              <>
+              <Text style={styles.repaymentText}>
+              You Can Repay the Amount Everyday from Your Earnings by Driving
+            </Text>
+              </>
+            ):(<>
             <Text style={styles.repaymentText}>
               Repayment date will be every month on the 5th.
             </Text>
+             </>)}
             <Text style={styles.noteText}>
-              *NOTE: According to your CIBIL score, you will get an amount up to your eligible limit.
+              *NOTE: Your eligible limit, as per your CIBIL score, defines the maximum loan you can receive.
             </Text>
+           
+            
             <TouchableOpacity style={styles.button} onPress={handleGetMoney}>
               <Text style={styles.buttonText}>Get Money</Text>
             </TouchableOpacity>
@@ -379,6 +401,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#555',
     marginTop: 5,
+  },
+  viewMoreButton: {
+    backgroundColor: '#0f4a97',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 25,
+    marginTop: 15,
+    alignSelf: 'center',
+  },
+  viewMoreButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 14,
   },
   
 });

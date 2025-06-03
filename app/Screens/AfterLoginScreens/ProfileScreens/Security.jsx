@@ -9,9 +9,7 @@ const Security = () => {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
 
   const securityOptions = [
-    { id: '1', title: 'Change Password', action: () => console.log('Change Password') },
-    { id: '2', title: 'Two-Factor Authentication', action: () => console.log('Two-Factor Authentication') },
-    { id: '3', title: 'Login Activity', action: () => console.log('Login Activity') },
+    { id: '1', title: 'Change PIN', action: () => navigation.navigate('ChangePin') },
   ];
 
   return (
@@ -55,6 +53,9 @@ const Security = () => {
           </TouchableOpacity>
         ))}
       </View>
+      <TouchableOpacity style={styles.logoutButton} onPress={() => console.log('Log Out')}>
+        <Text style={styles.logoutButtonText}>LogOut</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -67,8 +68,8 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 35,
-    left:20,
+    top: 40,
+    left:10,
     padding:5,
     zIndex: 10,
     borderWidth: 2,
@@ -106,6 +107,23 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 16,
+  },
+  logoutButton: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    zIndex: 10,
+    width: '100%',
+    backgroundColor: '#D32F2F',
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  logoutButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

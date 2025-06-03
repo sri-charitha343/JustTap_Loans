@@ -14,7 +14,11 @@ const BasicProfileDetailsCustomer = ({ navigation }) => {
   const aadharVerified = useSelector(state => state.aadharVerified)
   const panVerified = useSelector(state => state.panVerified)
   const stdIdVerified = useSelector(state => state.stdIdVerified)
-  const customerDetails = useSelector(state => state.customers.data) || {}
+  const userData = useSelector(state => state.userData);
+  console.log("user data:", userData);
+
+  const userType = useSelector((state) => state.userType);
+  console.log("user type:", userType);
   const categorySelected = useSelector(state => state.loan.selectedCategory)
 
   const handleAadharClick = () => {
@@ -41,11 +45,13 @@ const BasicProfileDetailsCustomer = ({ navigation }) => {
 
       {/* Customer Details */}
       <View style={styles.detailsContainer}>
-        <Text style={styles.detailText}>Name: {customerDetails.name}</Text>
-        <Text style={styles.detailText}>Email: {customerDetails.email}</Text>
-        <Text style={styles.detailText}>Mobile: {customerDetails.phoneNumber}</Text>
-        <Text style={styles.detailText}>Gender: {customerDetails.gender}</Text>
-        <Text style={styles.detailText}>DOB: {customerDetails.dateOfBirth}</Text>
+        <Text style={styles.detailText}>Name: {userData.name}</Text>
+        <Text style={styles.detailText}>Email: {userData.email}</Text>
+        <Text style={styles.detailText}>Mobile: {userData.phoneNumber || userData.mobileNumber}</Text>
+        <Text style={styles.detailText}>Gender: {userData.gender}</Text><Text style={styles.detailText}>
+          DOB: {(userData.dateOfBirth || userData.dob)?.toLocaleDateString?.() || ''}
+        </Text>
+
       </View>
 
       {/* Document Boxes */}

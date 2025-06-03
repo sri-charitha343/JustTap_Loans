@@ -4,13 +4,14 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDrivers, setCustomers, setUserData } from '../../store_management/actions/actions'; // Updated import path
 
-const MobileOTPScreen = () => {
+const MobileOTPScreen = ({route}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [otp, setOtp] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
-
+  const { isNewUser } = useNavigation().getState().routes.find(route => route.name === 'MobileOTPScreen')?.params || {};
+   const {mobileNumber} = route.params || {};
+ console.log(mobileNumber)
   const userType = useSelector((state) => state.userType);
 
   const handleSubmit = async () => {
@@ -27,6 +28,8 @@ const MobileOTPScreen = () => {
           navigation.navigate('EnterDriverId');
         } else if (userType === 'customer') {
           navigation.navigate('CategoriesPage'); // Navigate to CategoriesPage for customers
+        } else if(isNewUser){
+          navigation.navigate('EnterDetails',{mobileNumber});
         } else {
           Alert.alert('Error', 'Invalid user type');
         }
@@ -38,7 +41,7 @@ const MobileOTPScreen = () => {
   
   return (
     <SafeAreaView style={styles.container}>
-      {isLoading ? (
+      {(userType ==="customer" || "driver") &&  isLoading ? (
         <View style={styles.loadingContainer}>
           <Text style={styles.loadingText}>Please wait, fetching the profile details...</Text>
         </View>

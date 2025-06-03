@@ -24,14 +24,13 @@ const OverView = () => {
         { id: '4', date: '2025-02-15', amount: '₹3000', status: 'Paid' },
     ];
 
-    const mockPastBorrowings = [
-        { id: 'b1', date: '2025-01-05', amount: '₹4000', startDate: '2025-01-01', endDate: '2025-02-01' },
-        { id: 'b2', date: '2025-02-10', amount: '₹3000', startDate: '2025-02-01', endDate: '2025-03-01' },
-        { id: 'b3', date: '2025-03-12', amount: '₹2000', startDate: '2025-03-01', endDate: '2025-04-01' },
-        { id: 'b4', date: '2025-04-01', amount: '₹1000', startDate: '2025-03-30', endDate: '2025-04-15' },
-        { id: 'b5', date: '2025-04-15', amount: '₹5000', startDate: '2025-04-01', endDate: '2025-04-20' },
-    ];
-
+    // const mockPastBorrowings = [
+    //     { id: 'b1', date: '2025-01-05', amount: '₹4000', startDate: '2025-01-01', endDate: '2025-02-01' },
+    //     { id: 'b2', date: '2025-02-10', amount: '₹3000', startDate: '2025-02-01', endDate: '2025-03-01' },
+    //     { id: 'b3', date: '2025-03-12', amount: '₹2000', startDate: '2025-03-01', endDate: '2025-04-01' },
+    //     { id: 'b4', date: '2025-04-01', amount: '₹1000', startDate: '2025-03-30', endDate: '2025-04-15' },
+    //     { id: 'b5', date: '2025-04-15', amount: '₹5000', startDate: '2025-04-01', endDate: '2025-04-20' },
+    // ];
 
     const currentMonth = new Date().toISOString().slice(0, 7);
 
@@ -118,7 +117,7 @@ const OverView = () => {
                     </View>
 
                     <View style={styles.loanBox}>
-                        <View styles={{ justifyContent: 'flex-start'}}>
+                        <View style={{ justifyContent: 'flex-start' }}>
                             <Text style={styles.loanTitle}>Loan Repayment</Text>
                             <Text style={styles.loanDetail}>Amount: ₹10,000</Text>
                             <Text style={styles.loanDetail}>Due Date: 2025-04-20</Text>
@@ -148,16 +147,11 @@ const OverView = () => {
                                 renderTransaction({ item })
                             )
                         }
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={{ paddingVertical: 10 }}
                     />
                 </View>
 
-                <View style={[styles.listContainer, {height: 150}]}>
-                    <Text style={styles.listHeader}>Concluded Loans
-
-                    </Text>
+                {/* <View style={[styles.listContainer, { height: 200 }]}>
+                    <Text style={styles.listHeader}>Concluded Loans</Text>
                     <ScrollView
                         horizontal
                         showsHorizontalScrollIndicator={false}
@@ -175,21 +169,29 @@ const OverView = () => {
                             ) : (
                                 <View
                                     key={item.id}
-                                    style={[styles.transactionItem, {flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}]}
+                                    style={[styles.transactionItem, {
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                        marginRight: 10,
+                                        width: 250,
+                                    }]}
                                 >
-                                    <View style={{flexDirection: 'column', alignItems: 'flex-start', flex: 1}}>
-                                        <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%'}}>
-                                            <Text style={styles.Dates}>{item.startDate} - {item.endDate}</Text>
-                                        </View>
-                                        <Text style={[styles.transactionStatus, styles.borrowed, {textAlign: 'center', marginTop: 5}]}>Loan Taken on</Text>
-                                        <Text style={[styles.transactionDate, {textAlign: 'center'}]}>{item.date}</Text>
+                                    <View style={{ flexDirection: 'column', alignItems: 'flex-start', flex: 1 }}>
+                                        <Text style={styles.Dates}>{item.startDate} - {item.endDate}</Text>
+                                        <Text style={[styles.transactionStatus, styles.borrowed, { marginTop: 5 }]}>
+                                            Loan Taken on
+                                        </Text>
+                                        <Text style={styles.transactionDate}>{item.date}</Text>
                                     </View>
-                                    <Text style={[styles.transactionAmount, {textAlign: 'right', marginLeft: 10,marginTop: 35, flexShrink: 0}]}>{item.amount}</Text>
+                                    <Text style={[styles.transactionAmount, { marginLeft: 10, marginTop: 35 }]}>
+                                        {item.amount}
+                                    </Text>
                                 </View>
                             )
                         )}
                     </ScrollView>
-                </View>
+                </View> */}
             </ScrollView>
         </SafeAreaView>
     );
@@ -233,9 +235,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f1f8ff',
         padding: 10,
         width: '100%',
-        height: '50%',
         borderRadius: 20,
-        justifyContent: 'space-between',
         alignItems: 'center',
     },
     Header: {
@@ -271,6 +271,7 @@ const styles = StyleSheet.create({
         color: '#0f4a97',
     },
     loanBox: {
+        marginTop: 30,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -294,50 +295,53 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     daysLeft: {
-        marginTop: 25,
-        fontSize: 16,
         color: 'white',
+        fontSize: 16,
         fontWeight: 'bold',
     },
     balanceContainer: {
-        backgroundColor: 'white',
-        padding: 10,
+        marginTop: 20,
+        backgroundColor:'white',
+        padding: 15,
         borderRadius: 10,
         width: '90%',
-        alignItems: 'center',
-        marginBottom: 10,
     },
     balanceText: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
+        textAlign: 'center',
         color: '#000',
     },
     listContainer: {
-        width: '100%',
         marginTop: 20,
     },
     listHeader: {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 10,
-        color: '#0f4a97',
     },
     transactionItem: {
-        padding: 12,
-        marginRight: 10,
-        backgroundColor: '#eef4ff',
+        backgroundColor: '#f2f2f2',
+        padding: 10,
         borderRadius: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        minWidth: 200,
+        marginBottom: 10,
     },
     transactionLeft: {
         flexDirection: 'column',
     },
     transactionStatus: {
+        fontSize: 14,
+        fontWeight: 'bold',
+    },
+    transactionDate: {
+        fontSize: 13,
+        color: '#666',
+    },
+    transactionAmount: {
         fontSize: 16,
         fontWeight: 'bold',
+        color: '#000',
+        textAlign: 'right',
     },
     paid: {
         color: 'green',
@@ -345,38 +349,19 @@ const styles = StyleSheet.create({
     borrowed: {
         color: '#0f4a97',
     },
-    transactionDate: {
-        fontSize: 12,
-        color: '#666',
-    },
     Dates: {
-        textAlign: 'center',
-        backgroundColor: '#0f4a97',
-        fontSize: 12,
-        color: '#fff',
-        padding: 3,
-        borderRadius: 5,
-        marginBottom: 5,
-        justifyContent: 'center', 
-        alignSelf: 'center', 
-        marginLeft: '35%',
-        width: '100%',
-        paddingHorizontal:10
-    },
-
-    transactionAmount: {
-        fontSize: 16,
+        fontSize: 13,
         fontWeight: 'bold',
         color: '#333',
     },
     showMoreButton: {
-        marginRight: 10,
+        padding: 10,
         backgroundColor: '#0f4a97',
         borderRadius: 10,
-        paddingHorizontal: 10,
-        paddingVertical: 8,
         alignItems: 'center',
         justifyContent: 'center',
+        marginHorizontal: 10,
+        minWidth: 100,
     },
     showMoreButtonText: {
         color: '#fff',

@@ -9,14 +9,10 @@ const PersonalDetails = () => {
     const dispatch = useDispatch();
 
     const user = useSelector(state => state.userData);
-    console.log('user details:', user)
-     const userType = useSelector((state) => state.userType)
-      console.log('userType:',userType)
-      const getImageUrl = (filename) => `http://192.168.29.232:3002/uploads/${filename}`;
+    const userType = useSelector(state => state.userType);
+    const getImageUrl = (filename) => `http://192.168.29.232:3002/uploads/${filename}`;
 
     const aadharFrontImage = useSelector(state => state.aadharFrontImage);
-    console.log("Redux aadhar front:", useSelector(state => state.aadharFrontImage));
-
     const aadharBackImage = useSelector(state => state.aadharBackImage);
     const panFrontImage = useSelector(state => state.panFrontImage);
     const panBackImage = useSelector(state => state.panBackImage);
@@ -27,9 +23,14 @@ const PersonalDetails = () => {
         setOpenDropdown(openDropdown === dropdown ? null : dropdown);
     };
 
+    const renderLabel = (title, value) => (
+        <Text style={styles.label}>
+            <Text style={styles.labelTitle}>{title}</Text> {value}
+        </Text>
+    );
+
     return (
         <ScrollView style={styles.container}>
-            {/* Back Arrow Button */}
             <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
                 <Ionicons name="arrow-back" size={24} color="#0F4A97" />
             </TouchableOpacity>
@@ -38,26 +39,26 @@ const PersonalDetails = () => {
 
             {userType === 'driver' ? (
                 <>
-                    {/* DRIVER UI */}
                     <View style={styles.detailsContainer}>
-                        <Text style={styles.label}>Name: {user?.name}</Text>
-                        <Text style={styles.label}>Email: {user?.email}</Text>
-                        <Text style={styles.label}>Mobile: {user?.mobileNumber}</Text>
-                        <Text style={styles.label}>DOB: {user?.dateOfBirth || 'Not provided'}</Text>
-                        <Text style={styles.label}>Gender: {user?.gender || 'Not provided'}</Text>
-                        <Text style={styles.label}>Vehicle Type: {user?.vehicleType || 'Not provided'}</Text>
+                        {renderLabel('Name:', user?.name)}
+                        {renderLabel('Email:', user?.email)}
+                        {renderLabel('Mobile:', user?.mobileNumber)}
+                        {renderLabel('DOB:', user?.dateOfBirth || 'Not provided')}
+                        {renderLabel('Gender:', user?.gender || 'Not provided')}
+                        {renderLabel('Vehicle Type:', user?.vehicleType || 'Not provided')}
+                        {renderLabel('Current Address:', '48 - 320, Siri\'s Sri Nilayam, Ganesh Nagar, Chintal, Hyderabad, Telangana 500054')}
+                        {renderLabel('Permanent Address:', '48 - 320, Siri\'s Sri Nilayam, Ganesh Nagar, Chintal, Hyderabad, Telangana 500054')}
                     </View>
 
                     <Text style={styles.sectionHeading}>Documents</Text>
 
-                    {/* Aadhar Section */}
                     <TouchableOpacity style={styles.dropdown} onPress={() => toggleDropdown('aadhar')}>
                         <Text style={styles.dropdownText}>Aadhar</Text>
                         <Ionicons name={openDropdown === 'aadhar' ? "chevron-up" : "chevron-down"} size={20} color="white" />
                     </TouchableOpacity>
                     {openDropdown === 'aadhar' && (
                         <View style={styles.documentContainer}>
-                            <Text style={styles.label}>Aadhar Number: {user?.aadhar?.number || 'Not provided'}</Text>
+                            {renderLabel('Aadhar Number:', user?.aadhar?.number || 'Not provided')}
                             {user?.aadhar?.frontImage?.path ? (
                                 <Image source={{ uri: getImageUrl(user.aadhar.frontImage.filename) }} style={styles.image} />
                             ) : (
@@ -71,16 +72,15 @@ const PersonalDetails = () => {
                         </View>
                     )}
 
-                    {/* PAN Section */}
                     <TouchableOpacity style={styles.dropdown} onPress={() => toggleDropdown('pan')}>
                         <Text style={styles.dropdownText}>PAN Card</Text>
                         <Ionicons name={openDropdown === 'pan' ? "chevron-up" : "chevron-down"} size={20} color="white" />
                     </TouchableOpacity>
                     {openDropdown === 'pan' && (
                         <View style={styles.documentContainer}>
-                            <Text style={styles.label}>PAN Number: {user?.pancard?.number || 'Not provided'}</Text>
+                            {renderLabel('PAN Number:', user?.pancard?.number || 'Not provided')}
                             {user?.pancard?.image?.path ? (
-                                <Image source={{ uri: getImageUrl(user.pancard.image.filename)}} style={styles.image} />
+                                <Image source={{ uri: getImageUrl(user.pancard.image.filename) }} style={styles.image} />
                             ) : (
                                 <View style={styles.placeholder}><Text>No Front Image</Text></View>
                             )}
@@ -89,24 +89,25 @@ const PersonalDetails = () => {
                 </>
             ) : (
                 <>
-
                     <View style={styles.detailsContainer}>
-                        <Text style={styles.label}>Name: {user?.name}</Text>
-                        <Text style={styles.label}>Email: {user?.email}</Text>
-                        <Text style={styles.label}>Mobile: {user?.mobileNumber}</Text>
-                        <Text style={styles.label}>DOB: {user?.dob || 'Not provided'}</Text>
-                        <Text style={styles.label}>Gender: {user?.gender || 'Not provided'}</Text>
+                        {renderLabel('Name:', user?.name)}
+                        {renderLabel('Email:', user?.email)}
+                        {renderLabel('Mobile:', user?.mobileNumber)}
+                        {renderLabel('DOB:', user?.dob || 'Not provided')}
+                        {renderLabel('Gender:', user?.gender || 'Not provided')}
+                        {renderLabel('Current Address:', '48 - 320, Siri\'s Sri Nilayam, Ganesh Nagar, Chintal, Hyderabad, Telangana 500054')}
+                        {renderLabel('Permanent Address:', '48 - 320, Siri\'s Sri Nilayam, Ganesh Nagar, Chintal, Hyderabad, Telangana 500054')}
                     </View>
+
                     <Text style={styles.sectionHeading}>Documents</Text>
 
-                    {/* Aadhar Section */}
                     <TouchableOpacity style={styles.dropdown} onPress={() => toggleDropdown('aadhar')}>
                         <Text style={styles.dropdownText}>Aadhar</Text>
                         <Ionicons name={openDropdown === 'aadhar' ? "chevron-up" : "chevron-down"} size={20} color="white" />
                     </TouchableOpacity>
                     {openDropdown === 'aadhar' && (
                         <View style={styles.documentContainer}>
-                            <Text style={styles.label}>Aadhar Number: {user?.aadhar || 'Not provided'}</Text>
+                            {renderLabel('Aadhar Number:', user?.aadhar || 'Not provided')}
                             {aadharFrontImage ? (
                                 <Image source={{ uri: aadharFrontImage }} style={styles.image} />
                             ) : (
@@ -120,24 +121,25 @@ const PersonalDetails = () => {
                         </View>
                     )}
 
-                    {/* PAN Section */}
                     <TouchableOpacity style={styles.dropdown} onPress={() => toggleDropdown('pan')}>
                         <Text style={styles.dropdownText}>PAN Card</Text>
                         <Ionicons name={openDropdown === 'pan' ? "chevron-up" : "chevron-down"} size={20} color="white" />
                     </TouchableOpacity>
                     {openDropdown === 'pan' && (
                         <View style={styles.documentContainer}>
-                            <Text style={styles.label}>PAN Number: {user?.pancard || 'Not provided'}</Text>
+                            {renderLabel('PAN Number:', user?.pancard || 'Not provided')}
                             {panFrontImage ? (
                                 <Image source={{ uri: panFrontImage }} style={styles.image} />
                             ) : (
                                 <View style={styles.placeholder}><Text>No Front Image</Text></View>
                             )}
-                           
                         </View>
                     )}
                 </>
             )}
+            <TouchableOpacity style={styles.deleteButton}>
+                <Text style={styles.deleteButtonText}>Delete Account</Text>
+            </TouchableOpacity>
             <View style={styles.bottom}></View>
         </ScrollView>
     );
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
     backButton: {
         position: 'absolute',
         marginTop: 10,
-        left: 15,
+        left: 10,
         zIndex: 10,
         borderWidth: 2,
         padding: 5,
@@ -179,6 +181,9 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 16,
         marginBottom: 5,
+    },
+    labelTitle: {
+        fontWeight: 'bold',
     },
     sectionHeading: {
         fontSize: 18,
@@ -219,6 +224,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10,
         borderRadius: 5,
+    },
+    deleteButton:{
+        backgroundColor: '#ffe3e3',
+        padding:15,
+        borderColor:'red',
+        borderWidth:2,
+        borderRadius:8,
+    },
+    deleteButtonText:{
+        color:'red',
+        fontSize:16,
+        fontWeight:'bold',
+        textAlign:'center'
     },
     bottom: {
         paddingBottom: 40,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'; 
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,7 @@ import {
   ScrollView
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateActiveAmount } from '../../../../store_management/actions/actions';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -17,15 +17,43 @@ const TakenAmountSummary = ({ navigation, route }) => {
   const [emiAmount, setEmiAmount] = useState(route.params?.emiAmount || null);
   const [includeLoanProtection, setIncludeLoanProtection] = useState(true);
   const [showLoanInfoModal, setShowLoanInfoModal] = useState(false);
+  const userType = useSelector((state) => state.userType);
 
-  const calculateEMI = (months) => {
+  const calculateEMI = (months, startDate = new Date()) => {
     const interestRates = { 3: 0.03, 6: 0.04, 12: 0.05 };
     const principal = withdrawnAmount;
     const interest = principal * interestRates[months];
     const total = principal + interest;
+    const getDaysInMonth = (date) => {
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      return new Date(year, month + 1, 0).getDate(); // Last day of current month
+    };
 
-    return Math.round(total / months);
+    if (userType === "driver") {
+
+
+      let totalDays = 0;
+      const start = new Date(startDate);
+
+      for (let i = 0; i < months; i++) {
+        const current = new Date(start.getFullYear(), start.getMonth() + i, 1);
+        totalDays += getDaysInMonth(current);
+      }
+
+      const monthlyPayment = Math.round(total / months);
+      const perDayRepayment = Math.round(total / totalDays);
+
+      return {
+        monthlyPayment,
+        perDayRepayment
+      };
+    } else {
+
+      return Math.round(total / months);
+    }
   };
+
 
   const emi12 = calculateEMI(12);
   const emi6 = calculateEMI(6);
@@ -90,9 +118,9 @@ const TakenAmountSummary = ({ navigation, route }) => {
 
           <View style={styles.feeRow}>
             <View style={styles.feeLabelContainer}>
-            <Text style={styles.feeLabel} onPress={() => setShowLoanInfoModal(true)}>Loan Protection</Text>
+              <Text style={styles.feeLabel} onPress={() => setShowLoanInfoModal(true)}>Loan Protection</Text>
               <TouchableOpacity onPress={() => setShowLoanInfoModal(true)} style={{ marginLeft: 5 }}>
-             
+
                 <MaterialIcons name="info-outline" size={18} color="#0f4a97" />
               </TouchableOpacity>
             </View>
@@ -115,15 +143,21 @@ const TakenAmountSummary = ({ navigation, route }) => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>EMI Plan</Text>
           <TouchableOpacity style={styles.emiPlanContainer} onPress={handleEMIPlanPress}>
+
             <View style={styles.emiPlanLeft}>
               <Text style={styles.emiPlanLabel}>EMI Plan</Text>
-              {selectedPlan && <Text style={styles.selectedPlanText}>Selected: {selectedPlan}</Text>}
             </View>
             <View style={styles.emiPlanRight}>
               <Text style={styles.emiPlanAmount}>
-                {selectedPlan ? selectedPlan : `12 X ₹${emi12}`}
+                {selectedPlan
+                  ? selectedPlan
+                  : userType === 'driver'
+                    ? `12 X ₹${emi12.monthlyPayment}\n(₹${emi12.perDayRepayment}/day)`
+                    : `12 X ₹${emi12}`}
               </Text>
+
             </View>
+
           </TouchableOpacity>
         </View>
 
@@ -163,7 +197,7 @@ const TakenAmountSummary = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { flex: 1, marginTop: 30 },
   scrollContainer: { padding: 20, paddingTop: 40 },
   amountContainer: {
     backgroundColor: '#fff',

@@ -7,24 +7,76 @@ import {
   ScrollView
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useSelector } from 'react-redux';
 
 const EmiPlanPage = ({ navigation, route }) => {
   const { emi12, emi6, emi3, withdrawnAmount } = route.params;
+   const userType = useSelector((state) => state.userType);
+const handlePlanSelect = (months, amount) => {
+  let selectedPlan = '';
+  let emiAmount = null;
+  let perDayRepayment = null;
 
-  const handlePlanSelect = (months, amount) => {
-    navigation.navigate('TakenAmountSummary', {
-      selectedPlan: `${months} X ₹${amount}`,
-      emiAmount: amount,
-      withdrawnAmount
-    });
-  };
+  if (userType === 'driver') {
+    selectedPlan = `${months} X ₹${amount.monthlyPayment}\n(₹${amount.perDayRepayment}/day)`;
+    emiAmount = amount.monthlyPayment;
+    perDayRepayment = amount.perDayRepayment;
+    
+  } else {
+    selectedPlan = `${months} X ₹${amount}`;
+    emiAmount = amount;
+  }
+   console.log(selectedPlan)
+  navigation.navigate('TakenAmountSummary', {
+    selectedPlan,
+    emiAmount,
+    perDayRepayment,
+    withdrawnAmount,
+    months
+  });
+};
+
 
   return (
     <LinearGradient colors={['#e3f2fd', '#ffffff']} style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Text style={styles.title}>Choose Your EMI Plan</Text>
+         { userType === 'driver' ?(
+          <>
+           <TouchableOpacity 
+          style={styles.planContainer}
+          onPress={() => handlePlanSelect(12, emi12)}
+        >
+          <Text style={styles.planDuration}>12 Months</Text>
+          <Text style={styles.planAmount}>
+            12 X ₹{emi12.monthlyPayment} (₹{emi12.perDayRepayment}/day)
+          </Text>
+        </TouchableOpacity>
 
         <TouchableOpacity 
+          style={styles.planContainer}
+          onPress={() => handlePlanSelect(6, emi6)}
+        >
+          <Text style={styles.planDuration}>6 Months</Text>
+          <Text style={styles.planAmount}>
+            6 X ₹{emi6.monthlyPayment} (₹{emi6.perDayRepayment}/day)
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.planContainer}
+          onPress={() => handlePlanSelect(3, emi3)}
+        >
+          <Text style={styles.planDuration}>3 Months</Text>
+          <Text style={styles.planAmount}>
+            3 X ₹{emi3.monthlyPayment} (₹{emi3.perDayRepayment}/day)
+          </Text>
+        </TouchableOpacity>
+          </>
+         ):(
+           <>
+
+            <TouchableOpacity 
           style={styles.planContainer}
           onPress={() => handlePlanSelect(12, emi12)}
         >
@@ -44,9 +96,13 @@ const EmiPlanPage = ({ navigation, route }) => {
           style={styles.planContainer}
           onPress={() => handlePlanSelect(3, emi3)}
         >
+
           <Text style={styles.planDuration}>3 Months</Text>
           <Text style={styles.planAmount}>3 X ₹{emi3}</Text>
         </TouchableOpacity>
+           </>
+         )}
+       
       </ScrollView>
     </LinearGradient>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import { FontAwesome } from "@expo/vector-icons";
@@ -10,12 +10,15 @@ import { setUserData } from '../../../store_management/actions/actions';
 const CompleteCustomerProfile = () => {
   const dispatch = useDispatch();
 
-  const customerDetails = useSelector(state => state.customers.data);
-  console.log(customerDetails)
+ 
   const profilePicture = useSelector(state => state.profileImage);
   const aadharNumber = useSelector(state => state.aadharNumber);
   const panNumber = useSelector(state => state.panNumber);
-
+ const userDetails = useSelector(state => state.userData);
+   console.log("user data:", userDetails);
+ 
+   const userType = useSelector((state) => state.userType);
+   console.log("user type:", userType);
   const navigation = useNavigation();
   const [validImage, setValidImage] = useState(false);
 
@@ -26,13 +29,15 @@ const CompleteCustomerProfile = () => {
   }, [profilePicture]);
 
   const handleNext = () => {
+    const rawDob = userDetails.dateOfBirth || userDetails.dob;
+  const formattedDob = rawDob ? new Date(rawDob).toLocaleDateString() : '';
     const userData = {
-      name: customerDetails.name,
-      dob: customerDetails.dateOfBirth,
-      gender: customerDetails.gender,
-      mobileNumber: customerDetails.phoneNumber,
-      email: customerDetails.email,
-      ridesCompleted: customerDetails.ridesCompleted,
+      name: userDetails.name,
+      dob: formattedDob,
+      gender: userDetails.gender,
+      mobileNumber: userDetails.phoneNumber || userDetails.mobileNumber,
+      email: userDetails.email,
+      ridesCompleted: userDetails.ridesCompleted,
       aadhar: aadharNumber  || 'Not available',
       pancard: panNumber  || 'Not available',
     };
@@ -72,12 +77,12 @@ const CompleteCustomerProfile = () => {
 
       {/* User Details */}
       <View style={styles.detailsContainer}>
-        <Text style={styles.detail}>Name: {customerDetails?.name || 'N/A'}</Text>
-        <Text style={styles.detail}>DOB: {customerDetails?.dateOfBirth|| 'N/A'}</Text>
-        <Text style={styles.detail}>Gender: {customerDetails?.gender || 'N/A'}</Text>
-        <Text style={styles.detail}>Mobile: {customerDetails?.phoneNumber || 'Not available'}</Text>
-        <Text style={styles.detail}>Email: {customerDetails?.email || 'N/A'}</Text>
-        <Text style={styles.detail}>No. of Rides Taken: {customerDetails?.ridesCompleted || 0}</Text>
+        <Text style={styles.detail}>Name: {userDetails?.name || 'N/A'}</Text>
+        <Text style={styles.detail}>DOB:  {(userDetails.dateOfBirth || userDetails.dob)?.toLocaleDateString?.() || 'N/A'}</Text>
+        <Text style={styles.detail}>Gender: {userDetails?.gender || 'N/A'}</Text>
+        <Text style={styles.detail}>Mobile: {userDetails?.phoneNumber || userDetails.mobileNumber || "N/A"}</Text>
+        <Text style={styles.detail}>Email: {userDetails?.email || 'N/A'}</Text>
+        <Text style={styles.detail}>No. of Rides Taken: {userDetails?.ridesCompleted || 0}</Text>
         <Text style={styles.detail}>Aadhar No: {aadharNumber || 'Not available'}</Text>
         <Text style={styles.detail}>PAN No: {panNumber || 'Not available'}</Text>
       </View>

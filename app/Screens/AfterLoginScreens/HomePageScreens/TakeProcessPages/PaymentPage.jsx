@@ -5,8 +5,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 const PaymentPage = ({ navigation }) => {
   const handlePaymentSelect = (method) => {
     Alert.alert('Payment Successful', `You selected ${method.toUpperCase()} method`, [
-      { text: 'OK', onPress: () => navigation.navigate('MainTabs') },
+      { text: 'OK', onPress: () => navigation.navigate('UPIPayments') },
+      
     ]);
+
   };
 
   return (

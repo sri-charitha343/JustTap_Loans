@@ -21,7 +21,7 @@ const ExploreScreen = ({navigation}) => {
           </LinearGradient>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('CreditScore')}>
           <LinearGradient colors={['#FACC15', '#FB923C']} style={styles.gradient}>
             <MaterialIcons name="credit-score" size={50} color="#fff" />
             <Text style={styles.cardTitle}>Credit Score</Text>

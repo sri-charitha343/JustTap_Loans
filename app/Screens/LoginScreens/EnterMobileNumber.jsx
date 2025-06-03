@@ -15,11 +15,11 @@ const EnterMobileNumber = () => {
       Alert.alert('Error', 'Please enter a mobile number.');
       return;
     }
-    
+
     try {
       const response = await fetch(`http://192.168.29.13:5000/api/loan/details/${mobileNumber}`);
       const data = await response.json();
-      
+
       console.log('API Response Data:', data); // Log the response data
       if (data) {
         dispatch(setUserData(data));
@@ -28,7 +28,7 @@ const EnterMobileNumber = () => {
       }
 
 
-      
+
       if (data.existsInBoth) {
         if (data.captainDetails) {
           dispatch(setDrivers(data.captainDetails)); // Updated to use captainDetails
@@ -43,25 +43,29 @@ const EnterMobileNumber = () => {
         }
 
 
-      dispatch(setUserType('both'));
-      dispatch(setUserData({ mobileNumber }));
-      navigation.navigate('MobileOTPScreen');
+        dispatch(setUserType('both'));
+        dispatch(setUserData({ mobileNumber }));
+        navigation.navigate('MobileOTPScreen');
 
       } else if (data.userDetails) {
         dispatch(setCustomers(data.userDetails)); // This remains unchanged
 
-      dispatch(setUserType('customer'));
-      dispatch(setUserData({ mobileNumber }));
-      navigation.navigate('MobileOTPScreen');
+        dispatch(setUserType('customer'));
+        dispatch(setUserData({ mobileNumber }));
+        navigation.navigate('MobileOTPScreen');
 
       } else if (data.captainDetails) {
         dispatch(setUserType('driver'));
         dispatch(setUserData({ mobileNumber }));
 
-      navigation.navigate('MobileOTPScreen');
+        navigation.navigate('MobileOTPScreen');
 
       } else {
-        Alert.alert('Error', 'Mobile number not found.');
+        dispatch(setUserType('new'));
+        dispatch(setUserData({ mobileNumber }));
+        console.log(mobileNumber);
+        navigation.navigate('MobileOTPScreen', { isNewUser: true, mobileNumber });
+        
       }
     } catch (error) {
       console.error(error);
@@ -79,9 +83,9 @@ const EnterMobileNumber = () => {
         onChangeText={setMobileNumber}
         keyboardType="numeric"
       />
-      <TouchableOpacity 
-        style={[styles.button, !mobileNumber.trim() && styles.disabledButton]} 
-        onPress={handleSubmit} 
+      <TouchableOpacity
+        style={[styles.button, !mobileNumber.trim() && styles.disabledButton]}
+        onPress={handleSubmit}
         disabled={!mobileNumber.trim()}
       >
         <Text style={styles.buttonText}>Submit</Text>

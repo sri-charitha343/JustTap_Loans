@@ -9,6 +9,7 @@ import SplashScreen from './app/Screens/SplashScreens/SplashScreen';
 import WelcomeScreen from './app/Screens/LoginScreens/WelcomeScreen';
 import EnterMobileNumber from './app/Screens/LoginScreens/EnterMobileNumber';
 import MobileOTPScreen from './app/Screens/LoginScreens/MobileOTPScreen';
+import EnterDetails from './app/Screens/LoginScreens/EnterDetails';
 import EnterDriverId from './app/Screens/Driver/EnterDriverId';
 import SelectACatogory from './app/Screens/Driver/SelectACatogory';
 import DriverLoan from './app/Screens/Driver/DriverLoan';
@@ -64,6 +65,23 @@ import Pricing from './app/Screens/AfterLoginScreens/ProfileScreens/Pricing';
 import HelpAndSupport from './app/Screens/AfterLoginScreens/ProfileScreens/Help&Support';
 import UPISafetyGuidelines from './app/Screens/AfterLoginScreens/ProfileScreens/UPISafetyGuidelines';
 import UPISetting from './app/Screens/AfterLoginScreens/ProfileScreens/UPISetting';
+import SavingsAccount from './app/Screens/AfterLoginScreens/HomePageScreens/SavingsAccountPages/SavingsAccount';
+import PanNumberPage from './app/Screens/AfterLoginScreens/HomePageScreens/SavingsAccountPages/PanNumberPage';
+import VerifyDetailsPage from './app/Screens/AfterLoginScreens/HomePageScreens/SavingsAccountPages/VerifyDetailsPage';
+import NomineeDetailsPage from './app/Screens/AfterLoginScreens/HomePageScreens/SavingsAccountPages/NomineeDetailsPage';
+import VedioKYCVerifyPage from './app/Screens/AfterLoginScreens/HomePageScreens/SavingsAccountPages/VedioKYCVerifyPage';
+import KYCStatus from './app/Screens/AfterLoginScreens/HomePageScreens/SavingsAccountPages/KYCStatus';
+import YourSavingsAccount from './app/Screens/AfterLoginScreens/HomePageScreens/SavingsAccountPages/YourSavingsAccount';
+import QRCodePage from './app/Screens/AfterLoginScreens/ProfileScreens/UPISettingsPages/QRCodePage';
+import MoreDetailsPage from './app/Screens/AfterLoginScreens/HomePageScreens/SavingsAccountPages/MoreDetailsPage';
+import AadharNumberPage from './app/Screens/AfterLoginScreens/HomePageScreens/SavingsAccountPages/AadharNumberPage';
+import ChangePin from './app/Screens/AfterLoginScreens/ProfileScreens/SecurityPages/ChangePin';
+import AboutUs from './app/Screens/AfterLoginScreens/ProfileScreens/AboutUs';
+import UPIPayments from './app/Screens/AfterLoginScreens/HomePageScreens/TakeProcessPages/UPIPayments';
+import CreditScore from './app/Screens/AfterLoginScreens/ExploreScreens/CreditScore';
+import BorrowingsHistory from './app/Screens/AfterLoginScreens/LoansPageSteps/BorrowingsHistory';
+import BorrowingDetails from './app/Screens/AfterLoginScreens/LoansPageSteps/BorrowingDetails';
+import SingleRepaymentSchedule from './app/Screens/AfterLoginScreens/LoansPageSteps/SingleRepaymentSchedule';
 
 const Stack = createNativeStackNavigator();
 
@@ -72,11 +90,12 @@ export default function App() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
-        <Stack.Navigator initialRouteName="SplashScreen">
-          <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="EnterMobileNumber" component={EnterMobileNumber} options={{ headerShown: false }} />
+          <Stack.Navigator initialRouteName="SplashScreen">
+            <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="EnterMobileNumber" component={EnterMobileNumber} options={{ headerShown: false }} />
           <Stack.Screen name="MobileOTPScreen" component={MobileOTPScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="EnterDetails" component={EnterDetails} options={{ headerShown: false }} />
           <Stack.Screen name="CategoriesPage" component={CategoriesPage} options={{ headerShown: false }} />
           <Stack.Screen name="EnterDriverId" component={EnterDriverId} options={{ headerShown: false }} />
           <Stack.Screen name="SelectACatogory" component={SelectACatogory} options={{ headerShown: false }} />
@@ -92,58 +111,92 @@ export default function App() {
           <Stack.Screen name="DriverProfilePicture" component={DriverProfilePicture} options={{ headerShown: false }} />
           <Stack.Screen name="CompletedDriverProfile" component={CompletedDriverProfile} options={{ headerShown: false }} />
           <Stack.Screen name="ProfileImageScreen" component={ProfileImageScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="AadharUpload" component={AadharUpload} options={{ headerShown: false }} />
-          <Stack.Screen name="PanCard" component={PanCard} options={{ headerShown: false }} />
-          <Stack.Screen name="TakeSelfie" component={TakeSelfie} options={{ headerShown: false }} />
-          <Stack.Screen name="AadharFrontandBack" component={AadharFrontandBack} options={{ headerShown: false }} />
-          <Stack.Screen name="AadharImageUpload" component={AadharImageUpload} options={{ headerShown: false }} />
-          <Stack.Screen name="AadharUploadFromFile" component={AadharUploadFromFile} options={{ headerShown: false }} />
-          <Stack.Screen name="PanFrontandBack" component={PanFrontandBack} options={{ headerShown: false }} />
-          <Stack.Screen name="PanCardUpload" component={PanCardUpload} options={{ headerShown: false }} />
-          <Stack.Screen name="PanCardUploadFromFile" component={PanCardUploadFromFile} options={{ headerShown: false }} />
-          <Stack.Screen name="Processing" component={Processing} options={{ headerShown: false }} />
-          <Stack.Screen name="CompleteCustomerProfile" component={CompleteCustomerProfile} options={{ headerShown: false }} />
+            <Stack.Screen name="AadharUpload" component={AadharUpload} options={{ headerShown: false }} />
+            <Stack.Screen name="PanCard" component={PanCard} options={{ headerShown: false }} />
+            <Stack.Screen name="TakeSelfie" component={TakeSelfie} options={{ headerShown: false }} />
+            <Stack.Screen name="AadharFrontandBack" component={AadharFrontandBack} options={{ headerShown: false }} />
+            <Stack.Screen name="AadharImageUpload" component={AadharImageUpload} options={{ headerShown: false }} />
+            <Stack.Screen name="AadharUploadFromFile" component={AadharUploadFromFile} options={{ headerShown: false }} />
+            <Stack.Screen name="PanFrontandBack" component={PanFrontandBack} options={{ headerShown: false }} />
+            <Stack.Screen name="PanCardUpload" component={PanCardUpload} options={{ headerShown: false }} />
+            <Stack.Screen name="PanCardUploadFromFile" component={PanCardUploadFromFile} options={{ headerShown: false }} />
+            <Stack.Screen name="Processing" component={Processing} options={{ headerShown: false }} />
+            <Stack.Screen name="CompleteCustomerProfile" component={CompleteCustomerProfile} options={{ headerShown: false }} />
+
+            <Stack.Screen name="CreditScore" component={CreditScore}  />
+          <Stack.Screen name="BorrowingsHistory" component={BorrowingsHistory} options={{ headerShown: false }} />
+          <Stack.Screen name="BorrowingDetails" component={BorrowingDetails} options={{ headerShown: false }} />
+          <Stack.Screen name="SingleRepaymentSchedule" component={SingleRepaymentSchedule} options={{ headerShown: false }} />
 
 
-          <Stack.Screen name="MainTabs" component={TabNavigator} options={{ headerShown: false }} />
-          
-          <Stack.Screen name="OverView" component={OverView} options={{ headerShown: false }} />
-          <Stack.Screen name="AllTransactions" component={AllTransactions}  />
-          <Stack.Screen name="Cards" component={Cards} options={{ headerShown: false }} />
-          <Stack.Screen name="InviteFriends" component={InviteFriends}  />
-          <Stack.Screen name="HelpPage" component={HelpPage} options={{ headerShown: false }}  />
-          <Stack.Screen name="TakeOrPayPage" component={TakeOrPayPage} options={{ headerShown: false }} />
-          <Stack.Screen name="TakenAmountSummary" component={TakenAmountSummary} options={{ headerShown: false }} />
-          <Stack.Screen name="EmiPlanPage" component={EmiPlanPage} options={{ headerShown: false }} />
-          <Stack.Screen name="TransferAmountPage" component={TransferAmountPage} options={{ headerShown: false }} />
-          <Stack.Screen name="LoanDocumentsPage" component={LoanDocumentsPage} options={{ headerShown: false }} />
-          <Stack.Screen name="PaymentPage" component={PaymentPage} options={{ headerShown: false }} />
-          <Stack.Screen name="ChooseAPlan" component={ChooseAPlan} options={{ headerShown: false }} />
-
-          <Stack.Screen name="TransactionDetails" component={TransactionDetails} options={{ headerShown: false }} />
-
-          <Stack.Screen name="UserDetailsPage" component={UserDetailsPage} options={{ headerShown: false }} />
-          <Stack.Screen name="CameraCapturePage" component={CameraCapturePage} options={{ headerShown: false }} />
-          <Stack.Screen name="BankDetailsPage" component={BankDetailsPage} options={{ headerShown: false }} />
-          <Stack.Screen name="LoanProcessingScreen" component={LoanProcessingScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="AfterProcessingPage" component={AfterProcessingPage} options={{ headerShown: false }} />
-          <Stack.Screen name="AutoPaySetUp" component={AutoPaySetUp} options={{ headerShown: false }} />
-          <Stack.Screen name="RepaymentSchedule" component={RepaymentSchedule} options={{ headerShown: false }} />
 
 
-          <Stack.Screen name="ProfilePage" component={ProfilePage} options={{ headerShown: false }} />
-          <Stack.Screen name="PersonalDetails" component={PersonalDetails} options={{ headerShown: false }} />
-          <Stack.Screen name="Security" component={Security} options={{ headerShown: false }} />
-          <Stack.Screen name="ActionCenter" component={ActionCenter} options={{ headerShown: false }} />
-          <Stack.Screen name="Pricing" component={Pricing} options={{ headerShown: false }} />
-          <Stack.Screen name="UPISetting" component={UPISetting} options={{ headerShown: false }} />
-          <Stack.Screen name="HelpAndSupport" component={HelpAndSupport} options={{ headerShown: false }} />
-          <Stack.Screen name="UPISafetyGuidelines" component={UPISafetyGuidelines} options={{ headerShown: false }} />
+
+            <Stack.Screen name="MainTabs" component={TabNavigator} options={{ headerShown: false }} />
+
+            <Stack.Screen name="OverView" component={OverView} options={{ headerShown: false }} />
+            <Stack.Screen name="AllTransactions" component={AllTransactions} />
+            <Stack.Screen name="Cards" component={Cards} options={{ headerShown: false }} />
+            <Stack.Screen name="InviteFriends" component={InviteFriends} />
+            <Stack.Screen name="HelpPage" component={HelpPage} options={{ headerShown: false }} />
+            <Stack.Screen name="TakeOrPayPage" component={TakeOrPayPage} options={{ headerShown: false }} />
+            <Stack.Screen name="TakenAmountSummary" component={TakenAmountSummary} options={{ headerShown: false }} />
+            <Stack.Screen name="EmiPlanPage" component={EmiPlanPage} options={{ headerShown: false }} />
+            <Stack.Screen name="TransferAmountPage" component={TransferAmountPage} options={{ headerShown: false }} />
+            <Stack.Screen name="LoanDocumentsPage" component={LoanDocumentsPage} options={{ headerShown: false }} />
+            <Stack.Screen name="PaymentPage" component={PaymentPage} options={{ headerShown: false }} />
+            <Stack.Screen name="UPIPayments" component={UPIPayments} />
+
+            <Stack.Screen name="ChooseAPlan" component={ChooseAPlan} options={{ headerShown: false }} />
+
+            <Stack.Screen name="SavingsAccount" component={SavingsAccount} options={{ headerShown: false }} />
+            <Stack.Screen name="PanNumberPage" component={PanNumberPage} options={{ headerShown: false }} />
+            <Stack.Screen name="MoreDetailsPage" component={MoreDetailsPage} options={{ headerShown: false }} />
+            <Stack.Screen name="AadharNumberPage" component={AadharNumberPage} options={{ headerShown: false }} />
+            <Stack.Screen name="VerifyDetailsPage" component={VerifyDetailsPage} options={{ headerShown: false }} />
+            <Stack.Screen name="NomineeDetailsPage" component={NomineeDetailsPage} options={{ headerShown: false }} />
+            <Stack.Screen name="VedioKYCVerifyPage" component={VedioKYCVerifyPage} options={{ headerShown: false }} />
+            <Stack.Screen name="KYCStatus" component={KYCStatus} options={{ headerShown: false }} />
+            <Stack.Screen name="YourSavingsAccount" component={YourSavingsAccount} options={{ headerShown: false }} />
 
 
-          
 
-        </Stack.Navigator>
+
+
+
+            <Stack.Screen name="TransactionDetails" component={TransactionDetails} options={{ headerShown: false }} />
+
+            <Stack.Screen name="UserDetailsPage" component={UserDetailsPage} options={{ headerShown: false }} />
+            <Stack.Screen name="CameraCapturePage" component={CameraCapturePage} options={{ headerShown: false }} />
+            <Stack.Screen name="BankDetailsPage" component={BankDetailsPage} options={{ headerShown: false }} />
+            <Stack.Screen name="LoanProcessingScreen" component={LoanProcessingScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="AfterProcessingPage" component={AfterProcessingPage} options={{ headerShown: false }} />
+            <Stack.Screen name="AutoPaySetUp" component={AutoPaySetUp} options={{ headerShown: false }} />
+            <Stack.Screen name="RepaymentSchedule" component={RepaymentSchedule} options={{ headerShown: false }} />
+
+
+            <Stack.Screen name="ProfilePage" component={ProfilePage} options={{ headerShown: false }} />
+            <Stack.Screen name="PersonalDetails" component={PersonalDetails} options={{ headerShown: false }} />
+
+            <Stack.Screen name="Security" component={Security} options={{ headerShown: false }} />
+            <Stack.Screen name="ChangePin" component={ChangePin} options={{ headerShown: false }} />
+
+
+            <Stack.Screen name="ActionCenter" component={ActionCenter} options={{ headerShown: false }} />
+            <Stack.Screen name="Pricing" component={Pricing} options={{ headerShown: false }} />
+            <Stack.Screen name="UPISetting" component={UPISetting} options={{ headerShown: false }} />
+
+            <Stack.Screen name="QRCodePage" component={QRCodePage} />
+
+            <Stack.Screen name="HelpAndSupport" component={HelpAndSupport} options={{ headerShown: false }} />
+            <Stack.Screen name="UPISafetyGuidelines" component={UPISafetyGuidelines} options={{ headerShown: false }} />
+           <Stack.Screen name="AboutUs" component={AboutUs} />
+
+
+
+
+
+          </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
     </Provider>
